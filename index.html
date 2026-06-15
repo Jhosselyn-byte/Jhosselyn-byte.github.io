@@ -3,790 +3,1179 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Briggitte J. Vilca Chambilla — Data Science · Estadística · Investigación</title>
+<title>Yato Villa | Ingeniería Estadística e Informática · Ciencia de Datos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-/* ══════════════════════════════════════════
-   CSS VARIABLES & RESET
-   ══════════════════════════════════════════ */
+/* =========================================================
+   TOKENS — paleta de atardecer sobre la ciudad (Dazai)
+   ========================================================= */
 :root{
-    --bg:#0a0a14;--bg2:#0e0e1c;--card:rgba(16,16,32,0.65);
-    --card-solid:#10102a;--glass:rgba(20,20,44,0.5);
-    --border:rgba(200,165,90,0.08);--border-h:rgba(200,165,90,0.2);
-    --amber:#C8A55A;--amber-l:#E0CFA0;--amber-g:rgba(200,165,90,0.06);
-    --sky:#38BDF8;--sky-d:rgba(56,189,248,0.1);
-    --green:#22C55E;--green-d:rgba(34,197,94,0.1);
-    --violet:#8B7FB8;--violet-d:rgba(139,127,184,0.1);
-    --teal:#5BA4A4;--rose:#B8697A;
-    --text:#D6D1C7;--text2:#8A857B;--text3:#4A4740;--white:#F0ECE3;
+  --bg-deep:   #110d0c;
+  --bg-elev:   #1c1410;
+  --bg-card:   #241a16;
+  --bg-card-2: #2c1f1a;
+
+  --sunset-1:  #ff8c52;   /* naranja del cielo */
+  --sunset-2:  #e2543a;   /* rojo cálido */
+  --sunset-3:  #8a2f3b;   /* vino profundo */
+  --cream:     #ead2ad;   /* abrigo / vendas */
+  --bandage:   #f4e9d8;
+
+  --text-1:    #f6ece0;
+  --text-2:    #c7ad99;
+  --text-3:    #8b766a;
+
+  --line:      rgba(234,210,173,0.12);
+  --glass:     rgba(36,26,22,0.55);
+
+  --serif:     'Cormorant Garamond', serif;
+  --sans:      'Sora', sans-serif;
+  --jp:        'Noto Serif JP', serif;
+
+  --container: 1080px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-weight:300;overflow-x:hidden}
-::selection{background:var(--amber);color:var(--bg)}
-img{max-width:100%;display:block}
 
-/* ── Cursor Glow ── */
-.glow{position:fixed;width:550px;height:550px;border-radius:50%;pointer-events:none;z-index:0;
-    background:radial-gradient(circle,rgba(200,165,90,0.035) 0%,transparent 70%);
-    transform:translate(-50%,-50%);transition:left .3s,top .3s}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--sans);
+  background:var(--bg-deep);
+  color:var(--text-1);
+  line-height:1.65;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--sunset-2);color:var(--bg-deep);}
 
-/* ══════════════════════════════════════════
-   NAVIGATION
-   ══════════════════════════════════════════ */
-.nav{position:fixed;top:0;width:100%;z-index:999;padding:1rem 3rem;
-    display:flex;justify-content:space-between;align-items:center;
-    backdrop-filter:blur(28px) saturate(130%);background:rgba(10,10,20,0.6);
-    border-bottom:1px solid var(--border);transition:all .4s}
-.nav.scrolled{padding:.65rem 3rem;background:rgba(10,10,20,0.9)}
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--amber);letter-spacing:.03em}
-.nav-links{display:flex;gap:1.8rem;list-style:none}
-.nav-links a{color:var(--text2);text-decoration:none;font-size:.68rem;font-weight:600;
-    letter-spacing:.14em;text-transform:uppercase;transition:color .3s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--amber);transition:width .3s}
-.nav-links a:hover{color:var(--amber)}
-.nav-links a:hover::after{width:100%}
-.menu-btn{display:none;background:none;border:none;color:var(--amber);font-size:1.4rem;cursor:pointer}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:var(--bg-deep);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--sunset-1),var(--sunset-3));border-radius:4px;}
 
-/* ══════════════════════════════════════════
+.container{max-width:var(--container);margin:0 auto;padding:0 1.5rem;}
+
+/* eyebrow / kanji labels — firma tipográfica de la pieza */
+.eyebrow{
+  display:flex;align-items:center;gap:0.7rem;
+  font-family:var(--sans);font-size:0.78rem;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--sunset-1);
+  margin-bottom:0.9rem;
+}
+.eyebrow .kanji{
+  font-family:var(--jp);font-size:1.35rem;letter-spacing:0;
+  color:var(--cream);font-weight:600;
+}
+.eyebrow::after{
+  content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,var(--line),transparent);
+}
+
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;color:var(--text-1);}
+.section-title{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:0.6rem;}
+.section-quote{
+  font-family:var(--serif);font-style:italic;color:var(--text-2);
+  font-size:clamp(1rem,2vw,1.25rem);max-width:640px;margin-bottom:2.4rem;
+  border-left:2px solid var(--sunset-2);padding-left:1rem;
+}
+
+section{padding:6rem 0;position:relative;}
+.section-alt{background:linear-gradient(180deg,transparent,rgba(255,140,82,0.03),transparent);}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(17,13,12,0.7);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  transition:padding 0.3s ease;
+}
+.nav-inner{
+  max-width:var(--container);margin:0 auto;padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+}
+.logo{
+  font-family:var(--serif);font-size:1.5rem;font-weight:600;
+  display:flex;align-items:center;gap:0.5rem;color:var(--text-1);
+}
+.logo span{
+  font-family:var(--jp);color:var(--sunset-1);font-size:1.4rem;
+}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{
+  font-size:0.92rem;color:var(--text-2);position:relative;
+  transition:color 0.25s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;
+  background:linear-gradient(90deg,var(--sunset-1),var(--sunset-2));
+  transition:width 0.3s ease;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text-1);}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+
+.nav-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:0.4rem;
+}
+.nav-toggle span{width:24px;height:2px;background:var(--cream);border-radius:2px;transition:0.3s;}
+
+/* =========================================================
    HERO
-   ══════════════════════════════════════════ */
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 5rem}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-.hero-ov{position:absolute;inset:0;z-index:1;
-    background:radial-gradient(ellipse 55% 50% at 25% 50%,rgba(200,165,90,.04),transparent),
-    radial-gradient(ellipse 40% 60% at 80% 30%,rgba(56,189,248,.03),transparent),
-    linear-gradient(180deg,rgba(10,10,20,.55),rgba(10,10,20,.88))}
-.hero-inner{position:relative;z-index:2;max-width:660px}
-.hero-tag{font-family:'Fira Code',monospace;font-size:.67rem;color:var(--sky);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.8rem;
-    display:flex;align-items:center;gap:.8rem}
-.hero-tag::before{content:'';width:26px;height:1px;background:var(--sky)}
-.hero-name{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5.5vw,4.6rem);font-weight:800;line-height:1.06;color:var(--white)}
-.hero-name .sur{display:block;font-style:italic;font-weight:600;color:var(--amber);font-size:.78em;margin-top:.08em}
-.hero-roles{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem}
-.role-chip{font-family:'Fira Code',monospace;font-size:.62rem;padding:.3rem .8rem;border-radius:20px;letter-spacing:.04em;
-    border:1px solid var(--border)}
-.role-chip.a{border-color:rgba(200,165,90,.2);color:var(--amber-l)}
-.role-chip.s{border-color:rgba(56,189,248,.2);color:var(--sky)}
-.role-chip.g{border-color:rgba(34,197,94,.2);color:var(--green)}
-.typed-wrap{margin-top:1.5rem;min-height:1.8rem;font-size:.92rem;color:var(--text2)}
-.cursor{display:inline-block;width:2px;height:1.1em;background:var(--amber);margin-left:2px;vertical-align:text-bottom;animation:blink .9s step-end infinite}
-.hero-quote{margin-top:2rem;padding:1rem 0 1rem 1.2rem;border-left:2px solid var(--violet)}
-.hero-quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:.88rem;color:rgba(139,127,184,.85);line-height:1.6}
-.hero-quote cite{display:block;margin-top:.35rem;font-family:'Inter',sans-serif;font-style:normal;font-size:.67rem;color:var(--text3);letter-spacing:.05em}
-.hero-btns{margin-top:2rem;display:flex;gap:.8rem;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.6rem;border-radius:6px;
-    text-decoration:none;font-size:.78rem;font-weight:600;letter-spacing:.04em;transition:all .35s;cursor:pointer;border:none}
-.btn-a{background:var(--amber);color:var(--bg)}
-.btn-a:hover{background:var(--amber-l);transform:translateY(-2px);box-shadow:0 8px 25px rgba(200,165,90,.2)}
-.btn-o{border:1px solid var(--border);color:var(--text);background:transparent}
-.btn-o:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+   ========================================================= */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;padding-top:72px;
+}
+.hero-sky{
+  position:absolute;inset:0;z-index:0;
+  background:linear-gradient(180deg,#3a1e2c 0%,#7a2f3a 28%,var(--sunset-2) 52%,var(--sunset-1) 72%,#150e0c 100%);
+  background-size:100% 220%;
+  animation:skyShift 22s ease-in-out infinite alternate;
+}
+@keyframes skyShift{
+  0%{background-position:0% 0%;}
+  100%{background-position:0% 100%;}
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(17,13,12,0.25) 0%,rgba(17,13,12,0.35) 55%,var(--bg-deep) 100%);
+}
+.hero-skyline{
+  position:absolute;bottom:0;left:0;width:100%;z-index:2;
+  opacity:0.85;
+}
+.hero-network{position:absolute;inset:0;z-index:1;opacity:0.5;}
+.ribbon-svg{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;}
+.ribbon-path{
+  fill:none;stroke:url(#ribbonGrad);stroke-width:2;
+  stroke-linecap:round;
+  stroke-dasharray:14 10;
+  animation:ribbonFlow 9s linear infinite;
+  opacity:0.55;
+}
+@keyframes ribbonFlow{to{stroke-dashoffset:-480;}}
 
-/* Hero side */
-.hero-side{position:absolute;right:5rem;top:50%;transform:translateY(-50%);z-index:2;display:flex;flex-direction:column;gap:1rem}
-.h-card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:10px;
-    padding:.9rem 1.6rem;text-align:right;min-width:195px;transition:all .35s}
-.h-card:hover{transform:translateX(-5px);border-color:var(--border-h)}
-.h-card .n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--amber);line-height:1}
-.h-card .l{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:.12rem}
+.ember{
+  position:absolute;border-radius:50%;
+  background:var(--cream);opacity:0;z-index:2;
+  animation:emberRise linear infinite;
+}
+@keyframes emberRise{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:0.7;}
+  90%{opacity:0.4;}
+  100%{transform:translateY(-110vh) translateX(var(--drift,40px));opacity:0;}
+}
 
-/* ══════════════════════════════════════════
-   SHARED
-   ══════════════════════════════════════════ */
-.wrap{max-width:1080px;margin:0 auto;padding:0 3rem}
-section{padding:5.5rem 0}
-.sec-tag{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);
-    margin-bottom:.5rem;display:flex;align-items:center;gap:.7rem}
-.sec-tag::before{content:'';width:20px;height:1px;background:var(--amber)}
-.sec-h{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--white);line-height:1.15;margin-bottom:2.2rem}
-.sep{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent)}
-.dark-bg{background:var(--bg2)}
-/* reveal */
-.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
-.rv.vis{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+.hero-content{
+  position:relative;z-index:3;display:grid;
+  grid-template-columns:1.3fr 0.7fr;gap:3rem;align-items:center;
+  width:100%;
+}
+.hero-text .eyebrow{justify-content:flex-start;}
+.hero-text .eyebrow::after{display:none;}
+.hero-name{
+  font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;margin-bottom:0.6rem;
+  color:var(--text-1);
+}
+.hero-name em{
+  font-style:italic;color:var(--cream);
+  display:block;font-size:0.45em;font-weight:400;letter-spacing:0.3em;
+  text-transform:uppercase;margin-top:0.5rem;
+}
+.hero-role{
+  font-size:1.05rem;color:var(--cream);margin-bottom:0.4rem;font-weight:500;
+}
+.hero-tags{
+  font-size:0.9rem;color:var(--text-2);letter-spacing:0.05em;margin-bottom:1.6rem;
+}
+.hero-desc{
+  font-family:var(--serif);font-style:italic;font-size:1.15rem;
+  color:var(--text-2);max-width:520px;margin-bottom:2.2rem;
+}
+.hero-quote{
+  font-family:var(--serif);font-size:1rem;color:var(--cream);
+  border-left:2px solid var(--sunset-1);padding-left:1rem;
+  margin-bottom:2.2rem;font-style:italic;opacity:0.85;max-width:480px;
+}
+.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn{
+  font-family:var(--sans);font-weight:600;font-size:0.9rem;
+  padding:0.85rem 1.8rem;border-radius:999px;
+  display:inline-flex;align-items:center;gap:0.6rem;
+  transition:transform 0.25s ease,box-shadow 0.25s ease;
+  cursor:pointer;border:1px solid transparent;
+}
+.btn-primary{
+  background:linear-gradient(120deg,var(--sunset-1),var(--sunset-2));
+  color:#1a0f0b;box-shadow:0 8px 24px -8px rgba(226,84,58,0.6);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 30px -10px rgba(226,84,58,0.8);}
+.btn-outline{
+  border:1px solid var(--line);color:var(--text-1);
+  background:rgba(244,233,216,0.04);
+}
+.btn-outline:hover{
+  border-color:var(--sunset-1);transform:translateY(-3px);
+  background:rgba(244,233,216,0.08);
+}
 
-/* ══════════════════════════════════════════
-   ABOUT
-   ══════════════════════════════════════════ */
-.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3.5rem;align-items:start}
-.about-text p{font-size:.9rem;color:var(--text2);margin-bottom:1.1rem;text-align:justify}
-.about-text strong{color:var(--text);font-weight:500}
-.hl{color:var(--amber-l);font-weight:400}
-.panel{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.panel-hd{padding:1rem 1.4rem;background:var(--amber-g);border-bottom:1px solid var(--border)}
-.panel-hd h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--amber)}
-.panel-bd{padding:.3rem 1.4rem}
-.row{display:flex;justify-content:space-between;align-items:center;padding:.68rem 0;border-bottom:1px solid rgba(255,255,255,.02);font-size:.8rem}
-.row:last-child{border-bottom:none}
-.rk{color:var(--text3);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
-.rv2{color:var(--text);font-weight:500;text-align:right}
+/* photo */
+.hero-photo-wrap{
+  position:relative;width:100%;max-width:300px;margin:0 auto;
+}
+.hero-photo{
+  width:100%;aspect-ratio:1/1;border-radius:50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,0.18), transparent 45%),
+    linear-gradient(150deg,var(--sunset-1),var(--sunset-3) 70%);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 0 1px var(--line), 0 30px 60px -20px rgba(226,84,58,0.45);
+}
+.hero-photo i{font-size:5rem;color:rgba(244,233,216,0.85);}
+.hero-photo-ring{
+  position:absolute;inset:-14px;border-radius:50%;
+  border:1px dashed rgba(234,210,173,0.4);
+  animation:rotateRing 40s linear infinite;
+}
+@keyframes rotateRing{to{transform:rotate(360deg);}}
+.hero-photo-tag{
+  position:absolute;bottom:10px;right:6px;
+  background:var(--bg-card);border:1px solid var(--line);
+  border-radius:999px;padding:0.35rem 0.9rem;font-size:0.78rem;
+  display:flex;align-items:center;gap:0.4rem;color:var(--text-2);
+}
+.hero-photo-tag i{font-size:0.85rem;color:var(--sunset-1);}
 
-/* ══════════════════════════════════════════
-   IDENTITY
-   ══════════════════════════════════════════ */
-.id-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
-.id-card{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:10px;
-    padding:1.8rem;transition:all .4s;position:relative;overflow:hidden}
-.id-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .4s}
-.id-card:nth-child(1)::before{background:linear-gradient(90deg,var(--amber),transparent)}
-.id-card:nth-child(2)::before{background:linear-gradient(90deg,var(--violet),transparent)}
-.id-card:nth-child(3)::before{background:linear-gradient(90deg,var(--sky),transparent)}
-.id-card:nth-child(4)::before{background:linear-gradient(90deg,var(--rose),transparent)}
-.id-card:hover{transform:translateY(-4px);border-color:var(--border-h)}
-.id-card:hover::before{opacity:1}
-.id-card .ic{font-size:1.2rem;margin-bottom:.5rem;display:block}
-.id-card h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:.3rem}
-.id-card p{font-size:.78rem;color:var(--text2);line-height:1.6}
-/* influences */
-.inf-row{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;margin-top:1.8rem}
-.inf{display:flex;gap:1.3rem;align-items:flex-start;background:var(--glass);backdrop-filter:blur(10px);
-    border:1px solid var(--border);border-radius:10px;padding:1.6rem;transition:all .4s}
-.inf:hover{border-color:rgba(139,127,184,.25);transform:translateY(-3px)}
-.inf-av{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-    font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--bg)}
-.inf-av.t{background:linear-gradient(135deg,var(--amber),#dbc078)}
-.inf-av.d{background:linear-gradient(135deg,var(--violet),#a89ad0)}
-.inf h4{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.1rem}
-.inf .sub{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
-.inf p{font-size:.75rem;color:var(--text2);line-height:1.6}
+.scroll-cue{
+  position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);
+  z-index:3;display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  font-size:0.72rem;letter-spacing:0.25em;color:var(--text-2);
+  text-transform:uppercase;
+}
+.scroll-cue .line{width:1px;height:34px;background:var(--text-2);position:relative;overflow:hidden;}
+.scroll-cue .line::after{
+  content:"";position:absolute;top:-100%;left:0;width:100%;height:100%;
+  background:var(--sunset-1);animation:cueDrop 2.2s ease-in-out infinite;
+}
+@keyframes cueDrop{0%{top:-100%;}50%{top:0;}100%{top:100%;}}
 
-/* ══════════════════════════════════════════
-   SKILLS — animated bars
-   ══════════════════════════════════════════ */
-.skills-cols{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
-.skill-group h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:1rem;
-    display:flex;align-items:center;gap:.5rem}
-.skill-group h3 i{color:var(--amber);font-size:.85rem}
-.skill-item{margin-bottom:.9rem}
-.skill-label{display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:.3rem}
-.skill-label span:first-child{color:var(--text);font-weight:500}
-.skill-label span:last-child{color:var(--text3);font-family:'Fira Code',monospace;font-size:.65rem}
-.skill-track{height:5px;border-radius:3px;background:rgba(255,255,255,.04);overflow:hidden}
-.skill-fill{height:100%;border-radius:3px;width:0;transition:width 1.6s cubic-bezier(.22,1,.36,1)}
-.sf-a{background:linear-gradient(90deg,var(--amber),var(--amber-l))}
-.sf-s{background:linear-gradient(90deg,#2563eb,var(--sky))}
-.sf-g{background:linear-gradient(90deg,#15803d,var(--green))}
-.sf-v{background:linear-gradient(90deg,#6d28d9,var(--violet))}
+@media(max-width:880px){
+  .hero-content{grid-template-columns:1fr;text-align:center;gap:2.4rem;}
+  .hero-text .eyebrow{justify-content:center;}
+  .hero-desc,.hero-quote{margin-left:auto;margin-right:auto;}
+  .hero-buttons{justify-content:center;}
+  .hero-photo-wrap{order:-1;max-width:220px;}
+}
 
-/* Tech icons */
-.tech-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem;justify-content:center}
-.tech-icon{width:56px;height:56px;border-radius:10px;background:var(--glass);backdrop-filter:blur(8px);
-    border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:.2rem;transition:all .35s;cursor:default}
-.tech-icon:hover{transform:translateY(-4px);border-color:var(--border-h);background:var(--amber-g)}
-.tech-icon i{font-size:1.1rem;color:var(--sky)}
-.tech-icon span{font-size:.42rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+/* =========================================================
+   GENERAL REVEAL
+   ========================================================= */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
 
-/* Languages */
-.lang-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem}
-.lang-card{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:10px;
-    padding:1.2rem;text-align:center;transition:all .3s}
-.lang-card:hover{transform:translateY(-3px);border-color:var(--border-h)}
-.lang-card h4{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white)}
-.lang-card .lv{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:.25rem 0 .6rem}
-.lb{height:3px;border-radius:2px;background:rgba(255,255,255,.04);overflow:hidden}
-.lf{height:100%;border-radius:2px;width:0;transition:width 1.8s cubic-bezier(.22,1,.36,1)}
-.lf-n{background:var(--amber)}.lf-i{background:var(--teal)}.lf-b{background:var(--violet)}
+/* =========================================================
+   SOBRE MI
+   ========================================================= */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.about-text p{color:var(--text-2);margin-bottom:1.1rem;}
+.about-text strong{color:var(--cream);font-weight:600;}
+.interest-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.4rem;}
+.interest-tags span{
+  font-size:0.8rem;padding:0.4rem 0.9rem;border-radius:999px;
+  border:1px solid var(--line);color:var(--text-2);
+  background:rgba(234,210,173,0.04);
+}
 
-/* ══════════════════════════════════════════
-   EDUCATION
-   ══════════════════════════════════════════ */
-.tl{position:relative;padding-left:2rem}
-.tl::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:linear-gradient(to bottom,var(--amber),var(--sky),var(--violet),transparent)}
-.tl-i{position:relative;margin-bottom:1.8rem;padding:1.3rem 1.6rem;background:var(--glass);backdrop-filter:blur(10px);
-    border:1px solid var(--border);border-radius:8px;transition:all .3s}
-.tl-i:hover{transform:translateX(4px);border-color:var(--border-h)}
-.tl-i::before{content:'';position:absolute;left:-2rem;top:1.4rem;width:7px;height:7px;border-radius:50%;background:var(--amber);
-    transform:translateX(-3px);box-shadow:0 0 10px rgba(200,165,90,.4)}
-.tl-w{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--sky);letter-spacing:.08em}
-.tl-t{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin:.12rem 0}
-.tl-s{font-size:.8rem;color:var(--text2)}
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{
+  content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(180deg,var(--sunset-1),var(--sunset-3));
+  border-radius:2px;
+}
+.timeline-item{position:relative;margin-bottom:2rem;}
+.timeline-item:last-child{margin-bottom:0;}
+.timeline-item::before{
+  content:"";position:absolute;left:-2rem;top:4px;width:11px;height:11px;
+  border-radius:50%;background:var(--bg-deep);
+  border:2px solid var(--sunset-1);
+}
+.timeline-year{
+  font-family:var(--serif);font-style:italic;color:var(--sunset-1);
+  font-size:0.95rem;margin-bottom:0.25rem;
+}
+.timeline-item h4{font-size:1.1rem;margin-bottom:0.25rem;}
+.timeline-item p{color:var(--text-2);font-size:0.92rem;}
 
-/* ══════════════════════════════════════════
-   RESEARCH
-   ══════════════════════════════════════════ */
-.research-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.res-card{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:10px;
-    padding:1.4rem;text-align:center;transition:all .4s}
-.res-card:hover{transform:translateY(-4px);border-color:var(--border-h)}
-.res-card i{font-size:1.4rem;color:var(--sky);margin-bottom:.5rem}
-.res-card h4{font-family:'Playfair Display',serif;font-size:.85rem;color:var(--white);margin-bottom:.2rem}
-.res-card p{font-size:.65rem;color:var(--text3);line-height:1.5}
+@media(max-width:880px){.about-grid{grid-template-columns:1fr;gap:3.2rem;}}
 
-/* ══════════════════════════════════════════
-   PROJECTS
-   ══════════════════════════════════════════ */
-.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
-.proj{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:12px;
-    padding:2rem;transition:all .4s;position:relative;overflow:hidden}
-.proj::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .4s}
-.proj:nth-child(1)::before{background:linear-gradient(90deg,var(--amber),transparent)}
-.proj:nth-child(2)::before{background:linear-gradient(90deg,var(--sky),transparent)}
-.proj:nth-child(3)::before{background:linear-gradient(90deg,var(--green),transparent)}
-.proj:nth-child(4)::before{background:linear-gradient(90deg,var(--violet),transparent)}
-.proj:hover{transform:translateY(-5px);border-color:var(--border-h)}
-.proj:hover::before{opacity:1}
-.proj-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:800;color:rgba(200,165,90,.08);line-height:1;margin-bottom:.3rem}
-.proj h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:.4rem}
-.proj p{font-size:.78rem;color:var(--text2);line-height:1.65;margin-bottom:.6rem}
-.proj .tgs{display:flex;flex-wrap:wrap;gap:.3rem}
-.tg{font-family:'Fira Code',monospace;font-size:.55rem;padding:.16rem .46rem;border-radius:3px;letter-spacing:.02em}
-.tg-a{background:var(--amber-g);color:var(--amber-l)}
-.tg-s{background:var(--sky-d);color:var(--sky)}
-.tg-g{background:var(--green-d);color:var(--green)}
-.tg-v{background:var(--violet-d);color:var(--violet)}
-.proj-type{font-family:'Fira Code',monospace;font-size:.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:.5rem}
+/* =========================================================
+   HABILIDADES
+   ========================================================= */
+.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.6rem;}
+.skill-group h3{
+  font-size:1.15rem;margin-bottom:1.3rem;display:flex;align-items:center;gap:0.6rem;
+  font-family:var(--sans);font-weight:600;color:var(--cream);
+}
+.skill-group h3 i{color:var(--sunset-1);}
+.skill-item{margin-bottom:1.1rem;}
+.skill-label{
+  display:flex;justify-content:space-between;font-size:0.88rem;
+  color:var(--text-2);margin-bottom:0.4rem;
+}
+.skill-bar{
+  height:6px;border-radius:4px;background:rgba(234,210,173,0.08);
+  overflow:hidden;
+}
+.skill-fill{
+  height:100%;width:0%;border-radius:4px;
+  background:linear-gradient(90deg,var(--sunset-1),var(--sunset-2));
+  transition:width 1.4s cubic-bezier(.16,1,.3,1);
+}
+@media(max-width:780px){.skills-grid{grid-template-columns:1fr;gap:2.4rem;}}
 
-/* ══════════════════════════════════════════
+/* =========================================================
+   PROYECTOS
+   ========================================================= */
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;}
+.project-card{
+  background:var(--glass);border:1px solid var(--line);
+  border-radius:14px;padding:1.8rem;position:relative;overflow:hidden;
+  backdrop-filter:blur(8px);transition:transform 0.35s ease,border-color 0.35s ease;
+}
+.project-card::before{
+  content:"";position:absolute;top:0;left:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--sunset-1),var(--sunset-2),var(--sunset-3));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;
+}
+.project-card:hover{transform:translateY(-6px);border-color:rgba(255,140,82,0.35);}
+.project-card:hover::before{transform:scaleX(1);}
+.project-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,var(--sunset-1),var(--sunset-3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;color:#1a0f0b;margin-bottom:1.2rem;
+}
+.project-card h3{font-size:1.2rem;margin-bottom:0.6rem;}
+.project-card p{color:var(--text-2);font-size:0.92rem;margin-bottom:1.2rem;}
+.tech-tags{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.tech-tags span{
+  font-size:0.74rem;padding:0.28rem 0.7rem;border-radius:999px;
+  border:1px solid var(--line);color:var(--cream);
+  background:rgba(234,210,173,0.05);
+}
+@media(max-width:880px){.projects-grid{grid-template-columns:1fr;}}
+
+/* =========================================================
+   INVESTIGACION
+   ========================================================= */
+.research-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;}
+.research-card{
+  border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.2rem;
+  text-align:center;background:var(--bg-card);
+  transition:transform 0.3s ease,background 0.3s ease;
+}
+.research-card:hover{transform:translateY(-4px);background:var(--bg-card-2);}
+.research-card .kanji{
+  font-family:var(--jp);font-size:1.6rem;color:var(--sunset-1);display:block;margin-bottom:0.6rem;
+}
+.research-card h4{font-size:0.98rem;font-weight:600;color:var(--text-1);}
+@media(max-width:880px){.research-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.research-grid{grid-template-columns:1fr 1fr;}}
+
+/* =========================================================
    DASHBOARD
-   ══════════════════════════════════════════ */
-.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
-.chart-card{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
-.chart-card h4{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--white);margin-bottom:.8rem;
-    display:flex;align-items:center;gap:.4rem}
-.chart-card h4 i{color:var(--sky);font-size:.75rem}
-.chart-card canvas{width:100%!important;max-height:220px}
+   ========================================================= */
+.dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;}
+.chart-card{
+  background:var(--bg-card);border:1px solid var(--line);border-radius:14px;
+  padding:1.6rem;
+}
+.chart-card h4{font-size:1rem;margin-bottom:1rem;color:var(--cream);font-family:var(--sans);font-weight:600;}
+.chart-card canvas{max-height:240px;}
+@media(max-width:880px){.dashboard-grid{grid-template-columns:1fr;}}
 
-/* ══════════════════════════════════════════
-   SOFT SKILLS
-   ══════════════════════════════════════════ */
-.soft-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
-.soft{text-align:center;padding:1.5rem .6rem;background:var(--glass);backdrop-filter:blur(10px);
-    border:1px solid var(--border);border-radius:10px;transition:all .4s}
-.soft:hover{border-color:var(--amber);transform:translateY(-4px)}
-.soft .si{font-size:1.3rem;margin-bottom:.4rem;display:block}
-.soft h4{font-family:'Playfair Display',serif;font-size:.82rem;color:var(--white);margin-bottom:.12rem}
-.soft p{font-size:.6rem;color:var(--text3);line-height:1.5}
+/* =========================================================
+   GITHUB / TECNOLOGIAS
+   ========================================================= */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.4rem;}
+.stat-box{
+  border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;
+  text-align:center;background:var(--bg-card);
+}
+.stat-box .num{
+  font-family:var(--serif);font-size:2.1rem;color:var(--sunset-1);font-weight:600;
+  display:block;
+}
+.stat-box .lbl{font-size:0.8rem;color:var(--text-2);letter-spacing:0.05em;text-transform:uppercase;}
+.tech-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:1rem;}
+.tech-item{
+  border:1px solid var(--line);border-radius:12px;padding:1.2rem 0.5rem;
+  text-align:center;background:var(--bg-card);transition:transform 0.3s ease,color 0.3s ease;
+  color:var(--text-2);
+}
+.tech-item i{font-size:1.6rem;display:block;margin-bottom:0.5rem;color:var(--cream);}
+.tech-item span{font-size:0.7rem;}
+.tech-item:hover{transform:translateY(-4px) scale(1.04);color:var(--sunset-1);}
+.tech-item:hover i{color:var(--sunset-1);}
+@media(max-width:880px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .tech-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:520px){.tech-grid{grid-template-columns:repeat(3,1fr);}}
 
-/* ══════════════════════════════════════════
-   CONTACT
-   ══════════════════════════════════════════ */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
-.contact-info h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:.5rem}
-.contact-info>p{font-size:.85rem;color:var(--text2);margin-bottom:1.5rem}
-.c-item{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
-.c-item i{width:36px;height:36px;border-radius:8px;background:var(--amber-g);border:1px solid var(--border);
-    display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem}
-.c-item div .c-label{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
-.c-item div .c-val{font-size:.82rem;color:var(--text)}
-.form-card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:12px;padding:2rem}
-.form-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--amber);margin-bottom:1.2rem}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
-.field input,.field textarea{width:100%;padding:.7rem 1rem;border-radius:6px;border:1px solid var(--border);
-    background:rgba(10,10,20,.5);color:var(--text);font-family:'Inter',sans-serif;font-size:.82rem;
-    transition:border-color .3s;outline:none;resize:vertical}
-.field input:focus,.field textarea:focus{border-color:var(--amber)}
-.field textarea{min-height:100px}
+/* =========================================================
+   CONTACTO
+   ========================================================= */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+.contact-info p{color:var(--text-2);margin-bottom:1.6rem;max-width:420px;}
+.contact-links{display:flex;flex-direction:column;gap:1rem;}
+.contact-link{
+  display:flex;align-items:center;gap:0.9rem;color:var(--text-1);
+  font-size:0.95rem;transition:color 0.25s,transform 0.25s;
+}
+.contact-link i{
+  width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-card);border:1px solid var(--line);color:var(--sunset-1);
+}
+.contact-link:hover{color:var(--sunset-1);transform:translateX(4px);}
 
-/* Social links */
-.social-row{display:flex;gap:.6rem;margin-top:1.5rem}
-.social-link{width:40px;height:40px;border-radius:8px;background:var(--glass);border:1px solid var(--border);
-    display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:1rem;
-    text-decoration:none;transition:all .3s}
-.social-link:hover{color:var(--amber);border-color:var(--amber);transform:translateY(-3px)}
+.form-group{margin-bottom:1.2rem;}
+.form-group label{display:block;font-size:0.82rem;color:var(--text-2);margin-bottom:0.5rem;letter-spacing:0.04em;}
+.form-group input,.form-group textarea{
+  width:100%;background:var(--bg-card);border:1px solid var(--line);
+  border-radius:8px;padding:0.85rem 1rem;color:var(--text-1);font-family:var(--sans);
+  font-size:0.92rem;transition:border-color 0.25s,box-shadow 0.25s;
+}
+.form-group input:focus,.form-group textarea:focus{
+  outline:none;border-color:var(--sunset-1);
+  box-shadow:0 0 0 3px rgba(255,140,82,0.15);
+}
+.form-group textarea{resize:vertical;min-height:120px;}
+.form-msg{
+  margin-top:1rem;font-size:0.88rem;color:var(--sunset-1);
+  opacity:0;transform:translateY(6px);transition:opacity 0.4s,transform 0.4s;
+}
+.form-msg.show{opacity:1;transform:translateY(0);}
+@media(max-width:880px){.contact-grid{grid-template-columns:1fr;gap:3rem;}}
 
-/* ══════════════════════════════════════════
+/* =========================================================
    FOOTER
-   ══════════════════════════════════════════ */
-footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--border)}
-footer .fn{font-family:'Playfair Display',serif;font-size:1rem;color:var(--amber);margin-bottom:.3rem}
-footer p{font-size:.68rem;color:var(--text3)}
-footer .fm{font-family:'Playfair Display',serif;font-style:italic;font-size:.78rem;color:var(--violet);margin-top:.5rem}
-
-@keyframes blink{50%{opacity:0}}
-
-/* ══════════════════════════════════════════
-   RESPONSIVE
-   ══════════════════════════════════════════ */
-@media(max-width:1024px){
-    .hero{padding:0 3rem}.hero-side{position:relative;right:auto;top:auto;transform:none;flex-direction:row;flex-wrap:wrap;margin-top:2rem}
-    .hero{flex-direction:column;justify-content:center;align-items:flex-start}
+   ========================================================= */
+footer{
+  position:relative;padding:5rem 0 2.5rem;text-align:center;
+  border-top:1px solid var(--line);overflow:hidden;
 }
-@media(max-width:900px){
-    .nav{padding:.8rem 1.5rem}.nav-links{display:none}.menu-btn{display:block}
-    .wrap{padding:0 1.5rem}.hero{padding:7rem 1.5rem 3rem;min-height:auto}
-    .about-grid,.skills-cols,.contact-grid{grid-template-columns:1fr}
-    .id-grid,.inf-row,.proj-grid,.dash-grid{grid-template-columns:1fr}
-    .research-grid{grid-template-columns:1fr 1fr}
-    .soft-row{grid-template-columns:repeat(3,1fr)}
-    .lang-row{grid-template-columns:1fr}
-    .h-card{min-width:auto;padding:.7rem 1rem}
-    .hero-side{gap:.7rem}
-    .sec-h{font-size:1.8rem}
+.footer-glow{
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(255,140,82,0.12),transparent 60%);
+  pointer-events:none;
 }
-@media(max-width:600px){
-    .research-grid{grid-template-columns:1fr}
-    .soft-row{grid-template-columns:1fr 1fr}
-    .hero-name{font-size:2.1rem}
-    .tech-icon{width:48px;height:48px}
+.footer-quote{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,3vw,1.7rem);
+  color:var(--cream);max-width:560px;margin:0 auto 2rem;position:relative;z-index:1;
+}
+.footer-nav{
+  display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;
+  position:relative;z-index:1;
+}
+.footer-nav a{font-size:0.85rem;color:var(--text-2);transition:color 0.25s;}
+.footer-nav a:hover{color:var(--sunset-1);}
+.footer-bottom{font-size:0.78rem;color:var(--text-3);position:relative;z-index:1;}
+.footer-ribbon{
+  width:120px;height:2px;margin:0 auto 2rem;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--sunset-1),var(--sunset-2),transparent);
+  position:relative;z-index:1;
+}
+
+/* back to top */
+.to-top{
+  position:fixed;bottom:1.8rem;right:1.8rem;z-index:90;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--bg-card);border:1px solid var(--line);color:var(--sunset-1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:0;transform:translateY(12px);
+  transition:opacity 0.3s,transform 0.3s,background 0.3s;
+}
+.to-top.show{opacity:1;transform:translateY(0);}
+.to-top:hover{background:var(--bg-card-2);}
+
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
+@media(max-width:860px){
+  .nav-toggle{display:flex;}
+  .nav-links{
+    position:fixed;top:72px;left:0;right:0;
+    flex-direction:column;background:rgba(17,13,12,0.96);
+    backdrop-filter:blur(14px);padding:1.5rem;gap:1.2rem;
+    border-bottom:1px solid var(--line);
+    transform:translateY(-110%);transition:transform 0.35s ease;
+  }
+  .nav-links.open{transform:translateY(0);}
 }
 </style>
 </head>
 <body>
 
-<div class="glow" id="glow"></div>
-
-<!-- ═══ NAV ═══ -->
-<nav class="nav" id="nav">
-    <div class="nav-logo">B. Vilca Ch.</div>
-    <ul class="nav-links">
-        <li><a href="#about">Perfil</a></li>
-        <li><a href="#skills">Habilidades</a></li>
-        <li><a href="#education">Formación</a></li>
-        <li><a href="#research">Investigación</a></li>
-        <li><a href="#projects">Proyectos</a></li>
-        <li><a href="#dashboard">Dashboard</a></li>
-        <li><a href="#contact">Contacto</a></li>
+<!-- ================= NAV ================= -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#inicio" class="logo"><span>弥</span> Yato Villa</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#habilidades">Habilidades</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#investigacion">Investigación</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menú"><i class="fas fa-bars"></i></button>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-<!-- ═══════════════════════════════════════════════════════
-     HERO
-     ═══════════════════════════════════════════════════════ -->
-<section class="hero">
-    <canvas id="net"></canvas>
-    <div class="hero-ov"></div>
-    <div class="hero-inner">
-        <div class="hero-tag">Data Science · Estadística · Investigación</div>
-        <h1 class="hero-name">Briggitte Jhosselyn<span class="sur">Vilca Chambilla</span></h1>
-        <div class="hero-roles">
-            <span class="role-chip a">Estadística Aplicada</span>
-            <span class="role-chip s">Machine Learning</span>
-            <span class="role-chip g">Investigación</span>
-        </div>
-        <div class="typed-wrap"><span id="typed"></span><span class="cursor"></span></div>
-        <div class="hero-quote">
-            <p>«El presente no existe para ser disfrutado. Existe para ser superado.»</p>
-            <cite>— Osamu Dazai</cite>
-        </div>
-        <div class="hero-btns">
-            <a href="#projects" class="btn btn-a"><i class="fas fa-rocket"></i> Ver Proyectos</a>
-            <a href="#contact" class="btn btn-o"><i class="fas fa-envelope"></i> Contacto</a>
-        </div>
-    </div>
-    <div class="hero-side">
-        <div class="h-card"><div class="n">VI</div><div class="l">Semestre actual</div></div>
-        <div class="h-card"><div class="n">4+</div><div class="l">Proyectos</div></div>
-        <div class="h-card"><div class="n">8+</div><div class="l">Herramientas</div></div>
-    </div>
-</section>
+<!-- ================= HERO ================= -->
+<header class="hero" id="inicio">
+  <div class="hero-sky"></div>
+  <div class="hero-overlay"></div>
 
-<div class="sep"></div>
+  <!-- red de nodos: alusión a redes neuronales -->
+  <svg class="hero-network" viewBox="0 0 1000 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#f4e9d8" stroke-width="1">
+      <line x1="80" y1="120" x2="260" y2="60"/>
+      <line x1="260" y1="60" x2="430" y2="160"/>
+      <line x1="80" y1="120" x2="200" y2="260"/>
+      <line x1="430" y1="160" x2="620" y2="90"/>
+      <line x1="620" y1="90" x2="800" y2="200"/>
+      <line x1="200" y1="260" x2="430" y2="160"/>
+      <line x1="430" y1="160" x2="560" y2="320"/>
+      <line x1="800" y1="200" x2="940" y2="120"/>
+      <line x1="560" y1="320" x2="760" y2="380"/>
+      <line x1="200" y1="260" x2="80" y2="380"/>
+    </g>
+    <g fill="#ffc7a1">
+      <circle cx="80" cy="120" r="4"><animate attributeName="opacity" values="0.2;1;0.2" dur="4s" repeatCount="indefinite"/></circle>
+      <circle cx="260" cy="60" r="3"><animate attributeName="opacity" values="1;0.2;1" dur="5s" repeatCount="indefinite"/></circle>
+      <circle cx="430" cy="160" r="5"><animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite"/></circle>
+      <circle cx="200" cy="260" r="3"><animate attributeName="opacity" values="1;0.3;1" dur="4.5s" repeatCount="indefinite"/></circle>
+      <circle cx="620" cy="90" r="3"><animate attributeName="opacity" values="0.2;1;0.2" dur="6s" repeatCount="indefinite"/></circle>
+      <circle cx="800" cy="200" r="4"><animate attributeName="opacity" values="1;0.2;1" dur="4s" repeatCount="indefinite"/></circle>
+      <circle cx="560" cy="320" r="3"><animate attributeName="opacity" values="0.3;1;0.3" dur="5.5s" repeatCount="indefinite"/></circle>
+      <circle cx="940" cy="120" r="3"><animate attributeName="opacity" values="1;0.3;1" dur="3.8s" repeatCount="indefinite"/></circle>
+      <circle cx="760" cy="380" r="4"><animate attributeName="opacity" values="0.2;1;0.2" dur="4.8s" repeatCount="indefinite"/></circle>
+      <circle cx="80" cy="380" r="3"><animate attributeName="opacity" values="1;0.2;1" dur="5.2s" repeatCount="indefinite"/></circle>
+    </g>
+  </svg>
 
-<!-- ═══════════════════════════════════════════════════════
-     ABOUT
-     ═══════════════════════════════════════════════════════ -->
-<section id="about">
-<div class="wrap">
-    <div class="sec-tag rv">Perfil profesional</div>
-    <h2 class="sec-h rv d1">Sobre mí</h2>
+  <!-- listón / venda animada -->
+  <svg class="ribbon-svg" viewBox="0 0 1000 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#f4e9d8" stop-opacity="0"/>
+        <stop offset="0.5" stop-color="#f4e9d8" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#f4e9d8" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path class="ribbon-path" d="M -50 420 C 120 380, 180 480, 320 440 S 520 360, 620 430 S 820 520, 1050 430"/>
+    <path class="ribbon-path" style="animation-delay:-4.5s; opacity:0.3;" d="M -50 470 C 140 450, 220 520, 360 480 S 560 410, 660 470 S 860 540, 1050 470"/>
+  </svg>
+
+  <!-- horizonte de la ciudad -->
+  <svg class="hero-skyline" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#1c1410">
+      <rect x="0" y="90" width="60" height="110"/>
+      <rect x="70" y="60" width="40" height="140"/>
+      <rect x="120" y="110" width="70" height="90"/>
+      <rect x="200" y="40" width="50" height="160"/>
+      <rect x="260" y="80" width="35" height="120"/>
+      <rect x="305" y="100" width="90" height="100"/>
+      <rect x="410" y="55" width="45" height="145"/>
+      <rect x="465" y="95" width="60" height="105"/>
+      <rect x="535" y="30" width="40" height="170"/>
+      <rect x="585" y="85" width="75" height="115"/>
+      <rect x="670" y="65" width="50" height="135"/>
+      <rect x="730" y="105" width="65" height="95"/>
+      <rect x="805" y="45" width="42" height="155"/>
+      <rect x="855" y="90" width="80" height="110"/>
+      <rect x="945" y="70" width="48" height="130"/>
+      <rect x="1000" y="100" width="70" height="100"/>
+      <rect x="1080" y="55" width="40" height="145"/>
+      <rect x="1130" y="95" width="70" height="105"/>
+    </g>
+  </svg>
+
+  <!-- embers / partículas de datos -->
+  <div id="embers"></div>
+
+  <div class="container hero-content">
+    <div class="hero-text reveal in">
+      <div class="eyebrow"><span class="kanji">物語</span> Portafolio · Ciencia de Datos</div>
+      <h1 class="hero-name">Yato Villa<em>Ingeniería Estadística e Informática</em></h1>
+      <p class="hero-role">Data Science · Machine Learning · Inteligencia Artificial</p>
+      <p class="hero-tags">Estadística aplicada · Modelos predictivos · Series temporales</p>
+      <p class="hero-desc">Transformando datos en conocimiento mediante técnicas estadísticas, modelos predictivos e inteligencia artificial.</p>
+      <p class="hero-quote">"Entre el ruido y el patrón, prefiero quedarme a observar — ahí donde los números empiezan a contar algo."</p>
+      <div class="hero-buttons">
+        <a href="#proyectos" class="btn btn-primary"><i class="fa-solid fa-diagram-project"></i> Ver Proyectos</a>
+        <a href="#" class="btn btn-outline"><i class="fa-solid fa-arrow-down-to-line"></i> Descargar CV</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap reveal in">
+      <div class="hero-photo-ring"></div>
+      <div class="hero-photo">
+        <i class="fa-solid fa-user-astronaut"></i>
+      </div>
+      <div class="hero-photo-tag"><i class="fa-solid fa-location-dot"></i> Arequipa, Perú</div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+</header>
+
+<!-- ================= SOBRE MI ================= -->
+<section id="sobre-mi">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">観察</span> Sobre mí</div>
+    <h2 class="section-title">Encontrar orden dentro del ruido</h2>
+    <p class="section-quote">"Cada conjunto de datos guarda una historia que nadie quiso contar. Mi trabajo es prestarle atención hasta que hable."</p>
+
     <div class="about-grid">
-        <div class="about-text rv d2">
-            <p>Soy estudiante de <strong>Ingeniería Estadística e Informática</strong> en la Universidad Nacional del Altiplano, Puno. Me apasiona transformar datos crudos en conocimiento accionable mediante técnicas estadísticas, modelos predictivos e inteligencia artificial.</p>
-            <p>Mi formación combina <strong>análisis cuantitativo</strong> con <strong>informática aplicada</strong>: desde series de tiempo en EViews hasta clustering en Python o sistemas IoT con Arduino. No me quedo en la teoría — necesito ver el código ejecutarse, los residuos pasar las pruebas, los datos revelar la verdad.</p>
-            <p><span class="hl">Prefiero trabajar que hablar.</span> Creo en la lectura profunda, el juicio propio construido sobre evidencia, y en que los mejores equipos son aquellos donde el silencio productivo pesa tanto como la comunicación. Fuera del aula, encuentro claridad en la literatura metafórica de autores como Osamu Dazai.</p>
+      <div class="about-text reveal">
+        <p>Soy estudiante de <strong>Ingeniería Estadística e Informática</strong>, interesado en convertir información dispersa en decisiones claras. Me muevo entre la estadística clásica y las técnicas modernas de <strong>inteligencia artificial</strong>, buscando siempre el punto donde el rigor matemático se encuentra con un problema real.</p>
+        <p>Disfruto los proyectos donde los datos cuentan algo incómodo o inesperado: una enfermedad que se puede anticipar, una ciudad que respira distinto según la estación, un patrón que nadie había mirado dos veces.</p>
+        <div class="interest-tags">
+          <span>Ciencia de Datos</span>
+          <span>Inteligencia Artificial</span>
+          <span>Machine Learning</span>
+          <span>Estadística Aplicada</span>
+          <span>Series Temporales</span>
+          <span>Investigación Científica</span>
         </div>
-        <div class="panel rv d3">
-            <div class="panel-hd"><h3><i class="fas fa-id-card" style="margin-right:.4rem;font-size:.8rem"></i> Ficha académica</h3></div>
-            <div class="panel-bd">
-                <div class="row"><span class="rk">Universidad</span><span class="rv2">UNA Puno</span></div>
-                <div class="row"><span class="rk">Facultad</span><span class="rv2">Ing. Estadística e Informática</span></div>
-                <div class="row"><span class="rk">Código</span><span class="rv2">230307</span></div>
-                <div class="row"><span class="rk">Semestre</span><span class="rv2">VI</span></div>
-                <div class="row"><span class="rk">Región</span><span class="rv2">Puno — Arequipa</span></div>
-                <div class="row"><span class="rk">Enfoque</span><span class="rv2">Data Science · Research</span></div>
-            </div>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-year">2022</div>
+          <h4>Inicio del camino</h4>
+          <p>Primeros pasos en programación, estructuras de datos y fundamentos estadísticos.</p>
         </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023</div>
+          <h4>Primeros modelos predictivos</h4>
+          <p>Acercamiento a regresión, clasificación y proyectos aplicados con Python.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <h4>Ciencia de datos aplicada a la salud</h4>
+          <p>Desarrollo de modelos de Machine Learning orientados a diagnóstico temprano.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <h4>Series temporales y medio ambiente</h4>
+          <p>Modelado de calidad del aire mediante técnicas SARIMA y análisis estadístico avanzado.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">Actualidad</div>
+          <h4>Hacia la investigación aplicada</h4>
+          <p>Profundizando en IA, minería de datos y comunicación visual de resultados.</p>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-     IDENTITY
-     ═══════════════════════════════════════════════════════ -->
-<section class="dark-bg">
-<div class="wrap">
-    <div class="sec-tag rv">Identidad</div>
-    <h2 class="sec-h rv d1">Lo que me define</h2>
-    <div class="id-grid rv d2">
-        <div class="id-card"><span class="ic">🔇</span><h3>Silencio productivo</h3><p>Mi mejor trabajo nace en la concentración profunda. Los resultados hablan más fuerte que cualquier discurso.</p></div>
-        <div class="id-card"><span class="ic">📖</span><h3>Lectora por convicción</h3><p>Me atraen las lecturas metafóricas, los textos que obligan a pensar entre líneas. La literatura es otra forma de análisis.</p></div>
-        <div class="id-card"><span class="ic">⚖️</span><h3>Juicio propio</h3><p>Antes de aceptar una conclusión, necesito entender el camino que lleva hasta ella. La evidencia manda, el criterio la interpreta.</p></div>
-        <div class="id-card"><span class="ic">🔬</span><h3>Investigación como vocación</h3><p>Cada paper es un rompecabezas donde la metodología revela verdades que la intuición no alcanza a ver sola.</p></div>
+<!-- ================= HABILIDADES ================= -->
+<section id="habilidades" class="section-alt">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">技術</span> Habilidades</div>
+    <h2 class="section-title">Lo que domino, sin adornos</h2>
+    <p class="section-quote">"Prefiero un número honesto a una promesa elegante."</p>
+
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <h3><i class="fa-solid fa-square-root-variable"></i> Estadística</h3>
+        <div class="skill-item"><div class="skill-label"><span>Inferencia Estadística</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="90"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Regresión Lineal</span><span>92%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="92"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Regresión Logística</span><span>88%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="88"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Series Temporales</span><span>85%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="85"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Diseño Experimental</span><span>80%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="80"></div></div></div>
+      </div>
+
+      <div class="skill-group reveal">
+        <h3><i class="fa-solid fa-code"></i> Programación</h3>
+        <div class="skill-item"><div class="skill-label"><span>Python</span><span>95%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="95"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Java</span><span>78%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="78"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>SQL</span><span>85%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="85"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>MongoDB</span><span>70%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="70"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>MySQL</span><span>82%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="82"></div></div></div>
+      </div>
+
+      <div class="skill-group reveal">
+        <h3><i class="fa-solid fa-brain"></i> Machine Learning</h3>
+        <div class="skill-item"><div class="skill-label"><span>Scikit-Learn</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="90"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Random Forest</span><span>87%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="87"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Clustering</span><span>83%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="83"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Deep Learning</span><span>75%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="75"></div></div></div>
+      </div>
+
+      <div class="skill-group reveal">
+        <h3><i class="fa-solid fa-chart-column"></i> Visualización</h3>
+        <div class="skill-item"><div class="skill-label"><span>Power BI</span><span>85%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="85"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Matplotlib</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="90"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Seaborn</span><span>88%</span></div><div class="skill-bar"><div class="skill-fill" data-fill="88"></div></div></div>
+      </div>
     </div>
-    <div class="sec-tag rv" style="margin-top:3rem">Referentes</div>
-    <h2 class="sec-h rv d1">Mentes que inspiran</h2>
-    <div class="inf-row rv d2">
-        <div class="inf">
-            <div class="inf-av t">NT</div>
-            <div>
-                <h4>Nikola Tesla</h4>
-                <div class="sub">Ingeniero · Inventor · Visionario</div>
-                <p>Su disciplina obsesiva y su indiferencia al reconocimiento me recuerdan que el trabajo genuino no necesita aplausos — necesita consistencia.</p>
-            </div>
-        </div>
-        <div class="inf">
-            <div class="inf-av d">OD</div>
-            <div>
-                <h4>Osamu Dazai</h4>
-                <div class="sub">Escritor · Novelista · Poeta</div>
-                <p>Su prosa desnuda y metafórica enseña que la honestidad radical tiene su propia belleza. Leerlo exige juicio propio, no consenso fácil.</p>
-            </div>
-        </div>
-    </div>
-</div>
+  </div>
 </section>
 
-<div class="sep"></div>
+<!-- ================= PROYECTOS ================= -->
+<section id="proyectos">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">創造</span> Proyectos Destacados</div>
+    <h2 class="section-title">Modelos que intentan decir algo</h2>
+    <p class="section-quote">"Construyo modelos como quien escribe cartas: con la esperanza de que alguien, algún día, los entienda."</p>
 
-<!-- ═══════════════════════════════════════════════════════
-     SKILLS
-     ═══════════════════════════════════════════════════════ -->
-<section id="skills">
-<div class="wrap">
-    <div class="sec-tag rv">Competencias</div>
-    <h2 class="sec-h rv d1">Habilidades técnicas</h2>
-    <div class="skills-cols rv d2">
-        <!-- Left column -->
-        <div>
-            <div class="skill-group">
-                <h3><i class="fas fa-chart-line"></i> Estadística & Econometría</h3>
-                <div class="skill-item"><div class="skill-label"><span>Inferencia Estadística</span><span>90%</span></div><div class="skill-track"><div class="skill-fill sf-a" data-w="90"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Regresión Lineal / MCO</span><span>92%</span></div><div class="skill-track"><div class="skill-fill sf-a" data-w="92"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Series de Tiempo (SARIMA/ARCH)</span><span>85%</span></div><div class="skill-track"><div class="skill-fill sf-a" data-w="85"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Diseño Experimental / ANOVA</span><span>82%</span></div><div class="skill-track"><div class="skill-fill sf-a" data-w="82"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Álgebra Matricial (X'X, β̂)</span><span>88%</span></div><div class="skill-track"><div class="skill-fill sf-a" data-w="88"></div></div></div>
-            </div>
-            <div class="skill-group" style="margin-top:1.5rem">
-                <h3><i class="fas fa-brain"></i> Machine Learning & Data Science</h3>
-                <div class="skill-item"><div class="skill-label"><span>K-Means / DBSCAN / Clustering</span><span>83%</span></div><div class="skill-track"><div class="skill-fill sf-s" data-w="83"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>PCA / Reducción dimensional</span><span>78%</span></div><div class="skill-track"><div class="skill-fill sf-s" data-w="78"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Scikit-Learn</span><span>75%</span></div><div class="skill-track"><div class="skill-fill sf-s" data-w="75"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Visualización de datos</span><span>80%</span></div><div class="skill-track"><div class="skill-fill sf-s" data-w="80"></div></div></div>
-            </div>
-        </div>
-        <!-- Right column -->
-        <div>
-            <div class="skill-group">
-                <h3><i class="fas fa-code"></i> Programación & Software</h3>
-                <div class="skill-item"><div class="skill-label"><span>Python</span><span>80%</span></div><div class="skill-track"><div class="skill-fill sf-g" data-w="80"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>EViews</span><span>88%</span></div><div class="skill-track"><div class="skill-fill sf-g" data-w="88"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Minitab / SPSS</span><span>85%</span></div><div class="skill-track"><div class="skill-fill sf-g" data-w="85"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Excel Avanzado</span><span>90%</span></div><div class="skill-track"><div class="skill-fill sf-g" data-w="90"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>LaTeX / Overleaf</span><span>82%</span></div><div class="skill-track"><div class="skill-fill sf-g" data-w="82"></div></div></div>
-            </div>
-            <div class="skill-group" style="margin-top:1.5rem">
-                <h3><i class="fas fa-microchip"></i> IoT & Hardware</h3>
-                <div class="skill-item"><div class="skill-label"><span>Arduino</span><span>75%</span></div><div class="skill-track"><div class="skill-fill sf-v" data-w="75"></div></div></div>
-                <div class="skill-item"><div class="skill-label"><span>Sensores & SIM800L</span><span>70%</span></div><div class="skill-track"><div class="skill-fill sf-v" data-w="70"></div></div></div>
-            </div>
-        </div>
-    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-icon"><i class="fa-solid fa-eye"></i></div>
+        <h3>Predicción de Retinopatía mediante Machine Learning</h3>
+        <p>Modelo basado en Regresión Logística para la predicción temprana de enfermedades visuales a partir de datos clínicos.</p>
+        <div class="tech-tags"><span>Python</span><span>Scikit-Learn</span><span>Pandas</span></div>
+      </div>
 
-    <!-- Tech stack icons -->
-    <div class="sec-tag rv" style="margin-top:3rem">Stack tecnológico</div>
-    <div class="tech-row rv d1">
-        <div class="tech-icon"><i class="fab fa-python"></i><span>Python</span></div>
-        <div class="tech-icon"><i class="fas fa-chart-bar"></i><span>EViews</span></div>
-        <div class="tech-icon"><i class="fas fa-table"></i><span>Minitab</span></div>
-        <div class="tech-icon"><i class="fas fa-file-excel"></i><span>Excel</span></div>
-        <div class="tech-icon"><i class="fas fa-square-root-variable"></i><span>R</span></div>
-        <div class="tech-icon"><i class="fas fa-code"></i><span>LaTeX</span></div>
-        <div class="tech-icon"><i class="fab fa-git-alt"></i><span>Git</span></div>
-        <div class="tech-icon"><i class="fab fa-github"></i><span>GitHub</span></div>
-        <div class="tech-icon"><i class="fas fa-laptop-code"></i><span>VS Code</span></div>
-        <div class="tech-icon"><i class="fas fa-book-open"></i><span>Jupyter</span></div>
-        <div class="tech-icon"><i class="fas fa-microchip"></i><span>Arduino</span></div>
-        <div class="tech-icon"><i class="fab fa-google"></i><span>Colab</span></div>
-    </div>
+      <div class="project-card reveal">
+        <div class="project-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+        <h3>Modelamiento de PM10 en Arequipa mediante SARIMA</h3>
+        <p>Predicción de contaminación ambiental a partir de series temporales, identificando estacionalidad y tendencias de calidad del aire.</p>
+        <div class="tech-tags"><span>Python</span><span>Statsmodels</span><span>ARIMA</span><span>SARIMA</span></div>
+      </div>
 
-    <!-- Languages -->
-    <div class="sec-tag rv" style="margin-top:3rem">Idiomas</div>
-    <div class="lang-row rv d1">
-        <div class="lang-card"><h4>Español</h4><div class="lv">Nativo</div><div class="lb"><div class="lf lf-n" data-w="100"></div></div></div>
-        <div class="lang-card"><h4>Quechua</h4><div class="lv">Conversacional</div><div class="lb"><div class="lf lf-i" data-w="55"></div></div></div>
-        <div class="lang-card"><h4>English</h4><div class="lv">Básico – Intermedio</div><div class="lb"><div class="lf lf-b" data-w="40"></div></div></div>
+      <div class="project-card reveal">
+        <div class="project-icon"><i class="fa-solid fa-dice"></i></div>
+        <h3>Sistema de Distribución Binomial</h3>
+        <p>Aplicación de escritorio en Java con interfaz gráfica orientada al cálculo y visualización de probabilidades binomiales.</p>
+        <div class="tech-tags"><span>Java</span><span>POO</span><span>Swing</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon"><i class="fa-solid fa-sliders"></i></div>
+        <h3>Sistema de Regresión Logística con Interfaz Gráfica</h3>
+        <p>Herramienta interactiva para entrenar y visualizar modelos de regresión logística desde una interfaz amigable.</p>
+        <div class="tech-tags"><span>Python</span><span>Tkinter</span><span>Machine Learning</span></div>
+      </div>
     </div>
-</div>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-     EDUCATION
-     ═══════════════════════════════════════════════════════ -->
-<section id="education" class="dark-bg">
-<div class="wrap">
-    <div class="sec-tag rv">Educación</div>
-    <h2 class="sec-h rv d1">Formación académica</h2>
-    <div class="tl rv d2">
-        <div class="tl-i"><div class="tl-w">2023 — Actualidad · Semestre VI</div><div class="tl-t">Ingeniería Estadística e Informática</div><div class="tl-s">Universidad Nacional del Altiplano — Puno, Perú</div></div>
-        <div class="tl-i"><div class="tl-w">Formación complementaria</div><div class="tl-t">Econometría · Series de Tiempo · Machine Learning</div><div class="tl-s">SARIMA, ARCH, regresión matricial, K-Means, DBSCAN, PCA</div></div>
-        <div class="tl-i"><div class="tl-w">Investigación aplicada</div><div class="tl-t">Calidad del aire · Automatización agrícola · IoT</div><div class="tl-s">Series de tiempo PM₁₀ en Arequipa · Sistema inteligente de riego con Arduino y GSM</div></div>
+<!-- ================= EXPERIENCIA ================= -->
+<section id="experiencia" class="section-alt">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">道</span> Experiencia Académica</div>
+    <h2 class="section-title">El camino recorrido</h2>
+    <p class="section-quote">"No hay atajos hacia la comprensión; sólo trayectos más honestos."</p>
+
+    <div class="timeline reveal" style="max-width:640px;">
+      <div class="timeline-item">
+        <div class="timeline-year">Formación principal</div>
+        <h4>Universidad Nacional de San Agustín</h4>
+        <p>Ingeniería Estadística e Informática — formación en estadística aplicada, programación, bases de datos, modelamiento y ciencia de datos.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Enfoque</div>
+        <h4>Ciencia de Datos & Inteligencia Artificial</h4>
+        <p>Cursos y proyectos orientados a Machine Learning, series temporales, minería de datos y visualización analítica.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Proyección</div>
+        <h4>Investigación aplicada</h4>
+        <p>Interés en líneas de investigación relacionadas con salud pública, medio ambiente y modelos predictivos.</p>
+      </div>
     </div>
-</div>
+  </div>
 </section>
 
-<div class="sep"></div>
+<!-- ================= INVESTIGACION ================= -->
+<section id="investigacion">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">探求</span> Investigación</div>
+    <h2 class="section-title">Preguntas que vale la pena seguir</h2>
+    <p class="section-quote">"No busco certezas absolutas; busco preguntas con la suficiente fuerza para sostener una investigación."</p>
 
-<!-- ═══════════════════════════════════════════════════════
-     RESEARCH
-     ═══════════════════════════════════════════════════════ -->
-<section id="research">
-<div class="wrap">
-    <div class="sec-tag rv">Investigación</div>
-    <h2 class="sec-h rv d1">Líneas de investigación</h2>
-    <div class="research-grid rv d2">
-        <div class="res-card"><i class="fas fa-chart-line"></i><h4>Ciencia de Datos</h4><p>Análisis exploratorio, preprocesamiento y modelamiento predictivo</p></div>
-        <div class="res-card"><i class="fas fa-brain"></i><h4>Machine Learning</h4><p>Clustering, clasificación y reducción dimensional</p></div>
-        <div class="res-card"><i class="fas fa-clock"></i><h4>Series Temporales</h4><p>SARIMA, ARCH/GARCH, Box-Jenkins, predicción</p></div>
-        <div class="res-card"><i class="fas fa-microscope"></i><h4>Estadística Aplicada</h4><p>Inferencia, regresión, diseño experimental</p></div>
-        <div class="res-card"><i class="fas fa-lungs"></i><h4>Salud & Datos</h4><p>Modelamiento de enfermedades y predicción clínica</p></div>
-        <div class="res-card"><i class="fas fa-smog"></i><h4>Medio Ambiente</h4><p>Calidad del aire, PM₁₀, contaminación urbana</p></div>
-        <div class="res-card"><i class="fas fa-tractor"></i><h4>Agro & IoT</h4><p>Riego inteligente, sensores, automatización</p></div>
-        <div class="res-card"><i class="fas fa-database"></i><h4>Minería de Datos</h4><p>Descubrimiento de patrones en datos masivos</p></div>
+    <div class="research-grid">
+      <div class="research-card reveal"><span class="kanji">数</span><h4>Ciencia de Datos</h4></div>
+      <div class="research-card reveal"><span class="kanji">学</span><h4>Machine Learning</h4></div>
+      <div class="research-card reveal"><span class="kanji">智</span><h4>Inteligencia Artificial</h4></div>
+      <div class="research-card reveal"><span class="kanji">時</span><h4>Series Temporales</h4></div>
+      <div class="research-card reveal"><span class="kanji">統</span><h4>Estadística Aplicada</h4></div>
+      <div class="research-card reveal"><span class="kanji">鉱</span><h4>Minería de Datos</h4></div>
+      <div class="research-card reveal"><span class="kanji">命</span><h4>Salud basada en datos</h4></div>
+      <div class="research-card reveal"><span class="kanji">風</span><h4>Predicción ambiental</h4></div>
     </div>
-</div>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-     PROJECTS
-     ═══════════════════════════════════════════════════════ -->
-<section id="projects" class="dark-bg">
-<div class="wrap">
-    <div class="sec-tag rv">Portafolio</div>
-    <h2 class="sec-h rv d1">Proyectos destacados</h2>
-    <div class="proj-grid rv d2">
-        <div class="proj">
-            <div class="proj-num">01</div>
-            <h3>Modelamiento SARIMA de PM₁₀ en Arequipa</h3>
-            <p>Serie de tiempo (Ene 2015 – Abr 2026) de calidad del aire. SARIMA(2,0,0)(0,0,0)₁₂ en EViews 13 con diagnóstico ADF, ACF/PACF, Ljung-Box y validación temporal.</p>
-            <div class="tgs"><span class="tg tg-s">EViews 13</span><span class="tg tg-a">Minitab</span><span class="tg tg-v">LaTeX</span></div>
-            <div class="proj-type">Tesis · 2026</div>
-        </div>
-        <div class="proj">
-            <div class="proj-num">02</div>
-            <h3>Regresión lineal: precio y demanda de naranjas</h3>
-            <p>MCO completo con R²=88.91%, Shapiro-Wilk, Durbin-Watson, ANOVA (F=80.14, p&lt;0.001), banda de confianza al 95%. Verificación celda por celda.</p>
-            <div class="tgs"><span class="tg tg-a">Excel</span><span class="tg tg-v">LaTeX</span></div>
-            <div class="proj-type">Informe · 2026</div>
-        </div>
-        <div class="proj">
-            <div class="proj-num">03</div>
-            <h3>Clustering no supervisado: Iris & datos socioeconómicos</h3>
-            <p>K-Means + PCA, Silhouette, Davies-Bouldin. Comparativa crítica DBSCAN vs. Jerárquico. Análisis epistemológico de datos mixtos.</p>
-            <div class="tgs"><span class="tg tg-g">Python</span><span class="tg tg-g">Colab</span><span class="tg tg-s">scikit-learn</span></div>
-            <div class="proj-type">Práctica · 2026</div>
-        </div>
-        <div class="proj">
-            <div class="proj-num">04</div>
-            <h3>Sistema inteligente de riego — Yuramayo, Arequipa</h3>
-            <p>Automatización para molle y crianza de cuyes. Arduino, sensores de humedad, bomba 12V, tensiometría 30/60 cm, alertas GSM. ROI &lt;10 meses.</p>
-            <div class="tgs"><span class="tg tg-s">Arduino</span><span class="tg tg-s">SIM800L</span><span class="tg tg-a">Sensores</span></div>
-            <div class="proj-type">Tesis · 2026</div>
-        </div>
+<!-- ================= DASHBOARD ================= -->
+<section id="dashboard" class="section-alt">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">数値</span> Dashboard de Datos</div>
+    <h2 class="section-title">Los gráficos no mienten</h2>
+    <p class="section-quote">"Los gráficos no mienten, pero a veces piden que los escuchemos dos veces."</p>
+
+    <div class="dashboard-grid">
+      <div class="chart-card reveal">
+        <h4>Distribución estadística (frecuencias)</h4>
+        <canvas id="chartDist"></canvas>
+      </div>
+      <div class="chart-card reveal">
+        <h4>Regresión lineal — dispersión y ajuste</h4>
+        <canvas id="chartReg"></canvas>
+      </div>
+      <div class="chart-card reveal">
+        <h4>Predicción temporal (SARIMA — PM10)</h4>
+        <canvas id="chartTime"></canvas>
+      </div>
+      <div class="chart-card reveal">
+        <h4>Distribución de habilidades por área</h4>
+        <canvas id="chartRadar"></canvas>
+      </div>
     </div>
-</div>
+  </div>
 </section>
 
-<div class="sep"></div>
+<!-- ================= GITHUB & TECNOLOGIAS ================= -->
+<section id="tecnologias">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">道具</span> GitHub & Tecnologías</div>
+    <h2 class="section-title">Herramientas de trabajo</h2>
+    <p class="section-quote">"Las herramientas no cuentan la historia, pero sin ellas la historia no llega a ningún lado."</p>
 
-<!-- ═══════════════════════════════════════════════════════
-     DASHBOARD
-     ═══════════════════════════════════════════════════════ -->
-<section id="dashboard">
-<div class="wrap">
-    <div class="sec-tag rv">Análisis</div>
-    <h2 class="sec-h rv d1">Dashboard de datos</h2>
-    <div class="dash-grid rv d2">
-        <div class="chart-card">
-            <h4><i class="fas fa-wave-square"></i> Distribución Normal</h4>
-            <canvas id="chartNormal"></canvas>
-        </div>
-        <div class="chart-card">
-            <h4><i class="fas fa-arrow-trend-up"></i> Regresión Lineal</h4>
-            <canvas id="chartRegression"></canvas>
-        </div>
-        <div class="chart-card">
-            <h4><i class="fas fa-chart-area"></i> Serie Temporal PM₁₀</h4>
-            <canvas id="chartTimeSeries"></canvas>
-        </div>
-        <div class="chart-card">
-            <h4><i class="fas fa-circle-nodes"></i> Clustering K-Means</h4>
-            <canvas id="chartCluster"></canvas>
-        </div>
+    <div class="stats-row">
+      <div class="stat-box reveal"><span class="num" data-count="48">0</span><span class="lbl">Repositorios</span></div>
+      <div class="stat-box reveal"><span class="num" data-count="1240">0</span><span class="lbl">Commits</span></div>
+      <div class="stat-box reveal"><span class="num" data-count="76">0</span><span class="lbl">Stars</span></div>
+      <div class="stat-box reveal"><span class="num" data-count="312">0</span><span class="lbl">Contribuciones</span></div>
     </div>
-</div>
+
+    <div class="tech-grid">
+      <div class="tech-item reveal"><i class="fa-brands fa-python"></i><span>Python</span></div>
+      <div class="tech-item reveal"><i class="fa-solid fa-mug-hot"></i><span>Java</span></div>
+      <div class="tech-item reveal"><i class="fa-solid fa-leaf"></i><span>MongoDB</span></div>
+      <div class="tech-item reveal"><i class="fa-solid fa-database"></i><span>MySQL</span></div>
+      <div class="tech-item reveal"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
+      <div class="tech-item reveal"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
+      <div class="tech-item reveal"><i class="fa-solid fa-laptop-code"></i><span>VS Code</span></div>
+      <div class="tech-item reveal"><i class="fa-solid fa-book-open"></i><span>Jupyter</span></div>
+      <div class="tech-item reveal"><i class="fa-solid fa-chart-line"></i><span>Power BI</span></div>
+    </div>
+  </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-     SOFT SKILLS
-     ═══════════════════════════════════════════════════════ -->
-<section class="dark-bg">
-<div class="wrap">
-    <div class="sec-tag rv">Fortalezas</div>
-    <h2 class="sec-h rv d1">Competencias personales</h2>
-    <div class="soft-row rv d2">
-        <div class="soft"><span class="si">🧠</span><h4>Lógica</h4><p>Pensamiento estructurado</p></div>
-        <div class="soft"><span class="si">🤝</span><h4>Equipo</h4><p>Colaboración eficaz</p></div>
-        <div class="soft"><span class="si">🎯</span><h4>Resultados</h4><p>Entregables medibles</p></div>
-        <div class="soft"><span class="si">🔍</span><h4>Rigor</h4><p>Verificación exhaustiva</p></div>
-        <div class="soft"><span class="si">📚</span><h4>Autodidacta</h4><p>Aprendizaje continuo</p></div>
+<!-- ================= CONTACTO ================= -->
+<section id="contacto" class="section-alt">
+  <div class="container">
+    <div class="eyebrow"><span class="kanji">対話</span> Contacto</div>
+    <h2 class="section-title">Escribamos algo juntos</h2>
+    <p class="section-quote">"Una carta bien escrita puede esperar respuesta toda la vida; un buen modelo, también."</p>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p>¿Tienes un proyecto, una idea de investigación o simplemente quieres hablar sobre datos? Escríbeme — toda historia empieza con un primer mensaje.</p>
+        <div class="contact-links">
+          <a href="#" class="contact-link"><i class="fa-brands fa-github"></i> github.com/yatovilla</a>
+          <a href="#" class="contact-link"><i class="fa-brands fa-linkedin-in"></i> linkedin.com/in/yatovilla</a>
+          <a href="#" class="contact-link"><i class="fa-solid fa-envelope"></i> yato.villa@example.com</a>
+          <a href="#" class="contact-link"><i class="fa-solid fa-location-dot"></i> Arequipa, Perú</a>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="contactForm">
+        <div class="form-group">
+          <label for="cName">Nombre</label>
+          <input type="text" id="cName" name="name" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="cEmail">Correo</label>
+          <input type="email" id="cEmail" name="email" placeholder="tu@correo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="cMsg">Mensaje</label>
+          <textarea id="cMsg" name="message" placeholder="Escribe tu mensaje..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Enviar mensaje</button>
+        <div class="form-msg" id="formMsg">Gracias — tu mensaje quedó anotado. Te responderé pronto.</div>
+      </form>
     </div>
-</div>
+  </div>
 </section>
 
-<div class="sep"></div>
-
-<!-- ═══════════════════════════════════════════════════════
-     CONTACT
-     ═══════════════════════════════════════════════════════ -->
-<section id="contact">
-<div class="wrap">
-    <div class="sec-tag rv">Contacto</div>
-    <h2 class="sec-h rv d1">Hablemos de datos</h2>
-    <div class="contact-grid rv d2">
-        <div class="contact-info">
-            <h3>Conectemos</h3>
-            <p>Abierta a oportunidades en ciencia de datos, análisis estadístico, investigación cuantitativa y consultoría analítica.</p>
-            <div class="c-item"><i class="fas fa-envelope"></i><div><div class="c-label">Correo</div><div class="c-val">bvilcac@est.unap.edu.pe</div></div></div>
-            <div class="c-item"><i class="fas fa-map-marker-alt"></i><div><div class="c-label">Ubicación</div><div class="c-val">Puno — Arequipa, Perú</div></div></div>
-            <div class="c-item"><i class="fas fa-university"></i><div><div class="c-label">Universidad</div><div class="c-val">UNA Puno · FIEI</div></div></div>
-            <div class="social-row">
-                <a href="#" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="mailto:bvilcac@est.unap.edu.pe" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
-        <div class="form-card">
-            <h3><i class="fas fa-paper-plane" style="margin-right:.4rem;font-size:.8rem"></i> Enviar mensaje</h3>
-            <div class="field"><label>Nombre</label><input type="text" placeholder="Tu nombre"></div>
-            <div class="field"><label>Correo</label><input type="email" placeholder="correo@ejemplo.com"></div>
-            <div class="field"><label>Mensaje</label><textarea placeholder="Escribe tu mensaje..."></textarea></div>
-            <button class="btn btn-a" style="width:100%;justify-content:center;margin-top:.5rem"><i class="fas fa-paper-plane"></i> Enviar</button>
-        </div>
-    </div>
-</div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-     ═══════════════════════════════════════════════════════ -->
+<!-- ================= FOOTER ================= -->
 <footer>
-    <div class="fn">Briggitte Jhosselyn Vilca Chambilla</div>
-    <p>© 2026 — Puno, Perú</p>
-    <div class="fm">«Los datos cuentan historias. Mi objetivo es descubrirlas.»</div>
+  <div class="footer-glow"></div>
+  <div class="container">
+    <div class="footer-ribbon"></div>
+    <p class="footer-quote">"Los datos cuentan historias. Mi objetivo es descubrirlas."</p>
+    <nav class="footer-nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#investigacion">Investigación</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <p class="footer-bottom">© 2026 Yato Villa — Ingeniería Estadística e Informática. Diseñado con calma, datos y un poco de melancolía.</p>
+  </div>
 </footer>
 
-<!-- ═══════════════════════════════════════════════════════
-     SCRIPTS
-     ═══════════════════════════════════════════════════════ -->
+<button class="to-top" id="toTop" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up"></i></button>
+
 <script>
-/* ── Neural Network Background ── */
-(function(){
-    const c=document.getElementById('net'),x=c.getContext('2d');
-    let W,H,pts=[];
-    function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
-    function init(){sz();pts=[];const n=Math.min(Math.floor(W*H/7500),170);
-        for(let i=0;i<n;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.2+.3,a:Math.random()*.28+.06})}
-    function draw(){x.clearRect(0,0,W,H);
-        for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-            x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fillStyle=`rgba(200,165,90,${p.a})`;x.fill()}
-        for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
-            const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-            if(d<115){x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);
-                x.strokeStyle=`rgba(56,189,248,${.045*(1-d/115)})`;x.lineWidth=.5;x.stroke()}}
-        requestAnimationFrame(draw)}
-    window.addEventListener('resize',sz);init();draw()
-})();
+/* ================= EMBERS / PARTICULAS ================= */
+const emberContainer = document.getElementById('embers');
+const EMBER_COUNT = 26;
+for(let i=0;i<EMBER_COUNT;i++){
+  const e = document.createElement('div');
+  e.className = 'ember';
+  const size = (Math.random()*3 + 1.5).toFixed(1);
+  e.style.width = size+'px';
+  e.style.height = size+'px';
+  e.style.left = (Math.random()*100)+'%';
+  e.style.bottom = (-10 - Math.random()*20)+'px';
+  e.style.setProperty('--drift', (Math.random()*80-40)+'px');
+  e.style.animationDuration = (8 + Math.random()*10)+'s';
+  e.style.animationDelay = (Math.random()*12)+'s';
+  emberContainer.appendChild(e);
+}
 
-/* ── Typewriter ── */
-(function(){
-    const el=document.getElementById('typed');
-    const ph=['Transformando datos en conocimiento.','Estadística · Informática · Investigación.','Silencio productivo, resultados concretos.','Donde otros ven números, yo veo historias.'];
-    let pi=0,ci=0,del=false,pause=0;
-    function tick(){if(pause>0){pause--;requestAnimationFrame(tick);return}
-        const p=ph[pi];if(!del){el.textContent=p.slice(0,ci+1);ci++;if(ci>=p.length){del=true;pause=120}}
-        else{el.textContent=p.slice(0,ci);ci--;if(ci<=0){del=false;pi=(pi+1)%ph.length;pause=30}}
-        setTimeout(()=>requestAnimationFrame(tick),del?22:42)}
-    tick()
-})();
+/* ================= NAV TOGGLE ================= */
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', ()=>{
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', ()=> navLinks.classList.remove('open'));
+});
 
-/* ── Cursor glow ── */
-document.addEventListener('mousemove',e=>{const g=document.getElementById('glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
+/* ================= ACTIVE NAV LINK ON SCROLL ================= */
+const sections = document.querySelectorAll('section, header.hero');
+const navAnchors = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', ()=>{
+  let current = '';
+  sections.forEach(sec=>{
+    const top = sec.offsetTop - 100;
+    if(window.scrollY >= top) current = sec.getAttribute('id');
+  });
+  navAnchors.forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
 
-/* ── Nav scroll ── */
-window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60)});
+  // back to top button
+  document.getElementById('toTop').classList.toggle('show', window.scrollY > 600);
+});
 
-/* ── Scroll reveal ── */
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+document.getElementById('toTop').addEventListener('click', ()=>{
+  window.scrollTo({top:0, behavior:'smooth'});
+});
 
-/* ── Animated skill bars ── */
-const sObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.w+'%';sObs.unobserve(e.target)}})},{threshold:.3});
-document.querySelectorAll('.skill-fill,.lf').forEach(el=>sObs.observe(el));
+/* ================= REVEAL ON SCROLL ================= */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.15});
+revealEls.forEach(el=> revealObserver.observe(el));
 
-/* ══════════════════════════════════════════
-   CHART.JS DASHBOARD
-   ══════════════════════════════════════════ */
-const cDef={responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},
-    scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#4A4740',font:{size:9}}},
-            y:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'#4A4740',font:{size:9}}}}};
+/* ================= SKILL BARS ================= */
+const skillFills = document.querySelectorAll('.skill-fill');
+const skillObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const fills = entry.target.querySelectorAll('.skill-fill');
+      fills.forEach(f=>{ f.style.width = f.getAttribute('data-fill')+'%'; });
+      skillObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.25});
+document.querySelectorAll('.skill-group').forEach(g=> skillObserver.observe(g));
 
-/* Normal distribution */
-(function(){
-    const labels=[],data=[];
-    for(let z=-3.5;z<=3.5;z+=.25){labels.push(z.toFixed(1));data.push((1/Math.sqrt(2*Math.PI))*Math.exp(-.5*z*z))}
-    new Chart(document.getElementById('chartNormal'),{type:'line',data:{labels,datasets:[{data,
-        borderColor:'#C8A55A',backgroundColor:'rgba(200,165,90,.1)',fill:true,tension:.4,pointRadius:0,borderWidth:2}]},
-        options:{...cDef,scales:{...cDef.scales,x:{...cDef.scales.x,title:{display:true,text:'Z',color:'#4A4740',font:{size:9}}}}}})
-})();
+/* ================= COUNTERS (GitHub stats) ================= */
+const counters = document.querySelectorAll('.num');
+const counterObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const el = entry.target;
+      const target = parseInt(el.getAttribute('data-count'),10);
+      const duration = 1400;
+      const start = performance.now();
+      function tick(now){
+        const progress = Math.min((now-start)/duration, 1);
+        el.textContent = Math.floor(progress*target);
+        if(progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(tick);
+      counterObserver.unobserve(el);
+    }
+  });
+},{threshold:0.4});
+counters.forEach(c=> counterObserver.observe(c));
 
-/* Regression */
-(function(){
-    const xs=[50,55,60,65,70,75,80,85,90,95],ys=[175,162,148,140,130,125,115,105,98,70];
-    const scatter=xs.map((v,i)=>({x:v,y:ys[i]}));
-    const line=xs.map(v=>({x:v,y:210.44-1.578*v}));
-    new Chart(document.getElementById('chartRegression'),{type:'scatter',data:{datasets:[
-        {data:scatter,backgroundColor:'#38BDF8',pointRadius:5,pointHoverRadius:7},
-        {type:'line',data:line,borderColor:'#C8A55A',borderWidth:2,pointRadius:0,tension:0}]},
-        options:{...cDef,scales:{x:{...cDef.scales.x,title:{display:true,text:'Precio (S/.)',color:'#4A4740',font:{size:9}}},
-            y:{...cDef.scales.y,title:{display:true,text:'Cantidad',color:'#4A4740',font:{size:9}}}}}})
-})();
+/* ================= CONTACT FORM ================= */
+const contactForm = document.getElementById('contactForm');
+const formMsg = document.getElementById('formMsg');
+contactForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  formMsg.classList.add('show');
+  contactForm.reset();
+  setTimeout(()=> formMsg.classList.remove('show'), 4000);
+});
 
-/* Time series PM10 */
-(function(){
-    const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    const labels=[];const d1=[];const d2=[];
-    for(let y=0;y<3;y++) months.forEach((m,i)=>{
-        labels.push(m+(y===0?' 24':y===1?' 25':' 26'));
-        d1.push(35+Math.sin(i/2)*15+Math.random()*8);
-        d2.push(33+Math.sin(i/2)*14+Math.random()*5)});
-    new Chart(document.getElementById('chartTimeSeries'),{type:'line',data:{labels,datasets:[
-        {data:d1,borderColor:'#38BDF8',backgroundColor:'rgba(56,189,248,.08)',fill:true,tension:.35,pointRadius:0,borderWidth:1.5,label:'Real'},
-        {data:d2,borderColor:'#22C55E',borderDash:[4,3],tension:.35,pointRadius:0,borderWidth:1.5,label:'Predicción'}]},
-        options:{...cDef,plugins:{legend:{display:true,labels:{color:'#8A857B',font:{size:9},boxWidth:12}}},
-            scales:{x:{...cDef.scales.x,ticks:{...cDef.scales.x.ticks,maxTicksLimit:12}},y:cDef.scales.y}}})
-})();
+/* ================= CHART.JS THEME ================= */
+Chart.defaults.color = '#c7ad99';
+Chart.defaults.borderColor = 'rgba(234,210,173,0.08)';
+Chart.defaults.font.family = "'Sora', sans-serif";
 
-/* Clustering scatter */
-(function(){
-    const c1=[],c2=[],c3=[];
-    for(let i=0;i<25;i++){c1.push({x:2+Math.random()*2,y:3+Math.random()*2});
-        c2.push({x:6+Math.random()*2,y:6+Math.random()*2});
-        c3.push({x:4+Math.random()*2,y:1+Math.random()*1.5})}
-    new Chart(document.getElementById('chartCluster'),{type:'scatter',data:{datasets:[
-        {data:c1,backgroundColor:'#C8A55A',pointRadius:4,label:'Cluster 1'},
-        {data:c2,backgroundColor:'#38BDF8',pointRadius:4,label:'Cluster 2'},
-        {data:c3,backgroundColor:'#22C55E',pointRadius:4,label:'Cluster 3'}]},
-        options:{...cDef,plugins:{legend:{display:true,labels:{color:'#8A857B',font:{size:9},boxWidth:10}}},
-            scales:{x:{...cDef.scales.x,title:{display:true,text:'PC1',color:'#4A4740',font:{size:9}}},
-                    y:{...cDef.scales.y,title:{display:true,text:'PC2',color:'#4A4740',font:{size:9}}}}}})
-})();
+const sunsetGrad = (ctx, c1, c2)=>{
+  const g = ctx.createLinearGradient(0,0,0,240);
+  g.addColorStop(0,c1); g.addColorStop(1,c2);
+  return g;
+};
+
+/* 1. Distribución estadística */
+new Chart(document.getElementById('chartDist'), {
+  type:'bar',
+  data:{
+    labels:['10-20','20-30','30-40','40-50','50-60','60-70','70-80'],
+    datasets:[{
+      label:'Frecuencia',
+      data:[4,9,18,27,19,10,5],
+      backgroundColor:(ctx)=> sunsetGrad(ctx.chart.ctx,'#ff8c52','#8a2f3b'),
+      borderRadius:6,
+      maxBarThickness:34
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{display:false}},
+      y:{grid:{color:'rgba(234,210,173,0.06)'}}
+    }
+  }
+});
+
+/* 2. Regresión lineal */
+const scatterData = Array.from({length:24}, (_,i)=>{
+  const x = i+1;
+  return {x, y: x*1.8 + 3 + (Math.random()*6-3)};
+});
+new Chart(document.getElementById('chartReg'), {
+  type:'scatter',
+  data:{
+    datasets:[
+      {
+        label:'Observaciones',
+        data:scatterData,
+        backgroundColor:'#ead2ad',
+        pointRadius:4
+      },
+      {
+        label:'Ajuste lineal',
+        type:'line',
+        data:[{x:1,y:4.8},{x:24,y:46.2}],
+        borderColor:'#ff8c52',
+        borderWidth:2,
+        pointRadius:0,
+        fill:false
+      }
+    ]
+  },
+  options:{
+    plugins:{legend:{labels:{boxWidth:14}}},
+    scales:{
+      x:{grid:{color:'rgba(234,210,173,0.06)'}},
+      y:{grid:{color:'rgba(234,210,173,0.06)'}}
+    }
+  }
+});
+
+/* 3. Predicción temporal SARIMA */
+const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const historic = [62,58,70,75,68,60,55,52,57,64,72,80];
+const forecast  = [null,null,null,null,null,null,null,null,null,null,72,80,76,70,64,58];
+const forecastMonths = months.concat(['Ene*','Feb*','Mar*','Abr*']);
+new Chart(document.getElementById('chartTime'), {
+  type:'line',
+  data:{
+    labels:forecastMonths,
+    datasets:[
+      {
+        label:'PM10 observado',
+        data:historic,
+        borderColor:'#ff8c52',
+        backgroundColor:'rgba(255,140,82,0.15)',
+        tension:0.35,
+        fill:true,
+        pointRadius:2
+      },
+      {
+        label:'Predicción SARIMA',
+        data:forecastMonths.map((_,i)=> i>=10 ? [72,80,76,70,64,58][i-10] : null),
+        borderColor:'#e2543a',
+        borderDash:[6,4],
+        tension:0.35,
+        pointRadius:2,
+        fill:false
+      }
+    ]
+  },
+  options:{
+    plugins:{legend:{labels:{boxWidth:14}}},
+    scales:{
+      x:{grid:{display:false}},
+      y:{grid:{color:'rgba(234,210,173,0.06)'}}
+    }
+  }
+});
+
+/* 4. Radar de habilidades */
+new Chart(document.getElementById('chartRadar'), {
+  type:'radar',
+  data:{
+    labels:['Estadística','Programación','Machine Learning','Visualización','Investigación'],
+    datasets:[{
+      label:'Nivel actual',
+      data:[87,86,84,88,75],
+      backgroundColor:'rgba(255,140,82,0.18)',
+      borderColor:'#ff8c52',
+      pointBackgroundColor:'#ead2ad'
+    }]
+  },
+  options:{
+    scales:{
+      r:{
+        angleLines:{color:'rgba(234,210,173,0.08)'},
+        grid:{color:'rgba(234,210,173,0.08)'},
+        pointLabels:{color:'#c7ad99'},
+        ticks:{display:false}
+      }
+    }
+  }
+});
 </script>
 </body>
 </html>
