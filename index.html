@@ -3,247 +3,930 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.Sc. Romel Percy Melgarejo Bolivar | Perfil Profesional y Académico</title>
+    <title>Briggitte J. Vilca Chambilla | Ingeniería Estadística e Informática</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1e3a8a;
-            --secondary: #0284c7;
-            --dark: #1f2937;
-            --light: #f3f4f6;
-            --white: #ffffff;
-            --accent: #f59e0b;
+            --bg-deep: #0B0B14;
+            --bg-card: #12121F;
+            --bg-card-hover: #181830;
+            --gold: #C9A96E;
+            --gold-light: #E4D4A5;
+            --gold-dim: rgba(201,169,110,0.15);
+            --teal: #4A9BAF;
+            --teal-dim: rgba(74,155,175,0.12);
+            --rose: #B8697A;
+            --text-primary: #E8E4DD;
+            --text-secondary: #9A978F;
+            --text-muted: #5C5A55;
+            --border: rgba(201,169,110,0.1);
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--dark);
-            background-color: var(--light);
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-weight: 300;
+            overflow-x: hidden;
         }
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 4rem 1rem;
-            text-align: center;
+
+        /* ── NAV ─────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(11,11,20,0.75);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.4s;
         }
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        nav .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.05em;
         }
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto;
+        nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+        nav .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.3s;
         }
-        .container {
-            max-width: 950px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        section {
-            background-color: var(--white);
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        h2 {
-            color: var(--primary);
-            border-bottom: 2px solid var(--secondary);
-            padding-bottom: 0.4rem;
-            margin-bottom: 1.2rem;
-            font-size: 1.5rem;
+        nav .nav-links a:hover { color: var(--gold); }
+
+        /* ── HERO ────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-        p {
-            margin-bottom: 1rem;
-            text-align: justify;
-        }
-        ul {
-            list-style-type: none;
-        }
-        li {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
+            justify-content: center;
             position: relative;
+            padding: 6rem 2rem 4rem;
+            overflow: hidden;
         }
-        li::before {
-            content: "▹";
+        .hero-bg {
             position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: bold;
-            font-size: 1.1rem;
+            inset: 0;
+            overflow: hidden;
         }
-        .badge {
-            background-color: var(--light);
-            color: var(--primary);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: inline-block;
+        .hero-bg canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-gradient {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, var(--bg-deep), transparent);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 750px;
+        }
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--teal);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.3s forwards;
+        }
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.5s forwards;
+        }
+        .hero-name span { color: var(--gold); }
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.7s forwards;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.9s forwards;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .hero-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-top: 0.3rem;
         }
-        .project-title {
-            font-weight: bold;
-            color: var(--dark);
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            opacity: 0;
+            animation: fadeUp 0.8s 1.2s forwards;
         }
-        .btn-verify {
-            display: inline-flex;
+        .scroll-hint span {
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            margin: 0 auto;
+            animation: scrollPulse 2s infinite;
+        }
+
+        /* ── SECTIONS ────────────────────────────── */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        section {
+            padding: 5rem 0;
+        }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            display: flex;
             align-items: center;
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 5px;
+            gap: 0.8rem;
+        }
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        /* ── ABOUT ───────────────────────────────── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+        .about-text p strong { color: var(--text-primary); font-weight: 500; }
+        .about-highlight {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .about-highlight h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--border);
             font-size: 0.85rem;
-            font-weight: bold;
-            margin-top: 0.5rem;
-            transition: background-color 0.3s;
         }
-        .btn-verify:hover {
-            background-color: var(--secondary);
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; }
+        .info-value { color: var(--text-primary); font-weight: 500; text-align: right; }
+
+        /* ── EDUCATION ───────────────────────────── */
+        .timeline { position: relative; padding-left: 2.5rem; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--gold), var(--teal), transparent);
         }
-        .grid-2 {
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: all 0.4s;
+        }
+        .timeline-item:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(201,169,110,0.25);
+            transform: translateX(4px);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 1.8rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--gold);
+            border: 2px solid var(--bg-deep);
+            transform: translateX(-4px);
+        }
+        .timeline-period {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--teal);
+            letter-spacing: 0.08em;
+            margin-bottom: 0.4rem;
+        }
+        .timeline-role {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+        .timeline-org {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── SKILLS ──────────────────────────────── */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.8rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--teal));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .skill-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            border-color: rgba(201,169,110,0.2);
+        }
+        .skill-card:hover::after { opacity: 1; }
+        .skill-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+        .skill-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .skill-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.8rem;
+        }
+        .skill-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 3px;
+            background: var(--gold-dim);
+            color: var(--gold-light);
+            letter-spacing: 0.03em;
+        }
+        .skill-tag.teal {
+            background: var(--teal-dim);
+            color: var(--teal);
+        }
+
+        /* ── PROJECTS ────────────────────────────── */
+        .projects-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
-        @media (max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            header h1 {
-                font-size: 2rem;
-            }
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.4s;
+            position: relative;
         }
+        .project-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(201,169,110,0.25);
+            transform: translateY(-3px);
+        }
+        .project-card.featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        .project-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(201,169,110,0.12);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .project-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+        .project-card p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .project-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* ── SOFT SKILLS ─────────────────────────── */
+        .soft-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+        }
+        .soft-item {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: all 0.4s;
+        }
+        .soft-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+        .soft-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+        .soft-item h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+        .soft-item p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ── CONTACT ─────────────────────────────── */
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--teal), transparent);
+        }
+        .contact-box h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .contact-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .contact-link.primary {
+            background: var(--gold);
+            color: var(--bg-deep);
+        }
+        .contact-link.primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+        .contact-link.secondary {
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+        .contact-link.secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* ── FOOTER ──────────────────────────────── */
         footer {
             text-align: center;
-            padding: 3rem 1rem;
-            font-size: 0.9rem;
-            color: #6b7280;
-            background-color: #e5e7eb;
-            margin-top: 3rem;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        footer .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ── ANIMATIONS ──────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            .about-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card.featured { grid-template-columns: 1fr; }
+            .soft-grid { grid-template-columns: 1fr 1fr; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-stats { flex-wrap: wrap; }
+            .section-title { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>M.Sc. Romel Percy Melgarejo Bolivar</h1>
-        <p>Ingeniero Estadístico e Informático | Especialista en TI, Ciencia de Datos y Docencia Universitaria</p>
-    </header>
+<!-- ═══════ NAV ═══════ -->
+<nav>
+    <div class="logo">B. Vilca</div>
+    <ul class="nav-links">
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#formacion">Formación</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+    </ul>
+</nav>
 
-    <div class="container">
-        
-        <!-- SECCIÓN 1: RESUMEN EJECUTIVO -->
-        <section id="resumen">
-            <h2>📝 Resumen Profesional</h2>
-            <p>Profesional peruano de la ingeniería con competencias avanzadas en Ciencia de Datos, redes telemáticas, tecnologías Web y simulación de entornos tridimensionales. Sólido trasfondo en la investigación científica aplicada al ámbito de la salud y educación, respaldado por la dirección de proyectos y cargos de liderazgo institucional en la región Puno [CTI Vitae - CONCYTEC].</p>
-        </section>
-
-        <!-- SECCIÓN 2: FORMACIÓN ACADÉMICA Y IDIOMAS (DISEÑO EN CUADRÍCULA) -->
-        <div class="grid-2">
-            <section id="educacion">
-                <h2>🎓 Formación Superior</h2>
-                <ul>
-                    <li>
-                        <strong>Magíster Scientiae en Informática</strong><br>
-                        Mención en Gerencia de TIC — Universidad Nacional del Altiplano [CTI Vitae - CONCYTEC]
-                    </li>
-                    <li>
-                        <strong>Ingeniero Estadístico e Informático</strong><br>
-                        Título Profesional — Universidad Nacional del Altiplano [CTI Vitae - CONCYTEC]
-                    </li>
-                    <li>
-                        <strong>Bachiller en Ciencias Estadísticas e Informática</strong><br>
-                        Grado Académico — Universidad Nacional del Altiplano [CTI Vitae - CONCYTEC]
-                    </li>
-                    <li>
-                        <strong>Especialidad en Mecatrónica Automotriz</strong><br>
-                        Estudios Técnicos — I.S.T. José Antonio Encinas (Puno)
-                    </li>
-                </ul>
-            </section>
-
-            <section id="idiomas">
-                <h2>🌐 Competencias Lingüísticas</h2>
-                <ul>
-                    <li><strong>Quechua:</strong> Lengua Nativa (Nivel Avanzado)</li>
-                    <li><strong>Inglés:</strong> Nivel Intermedio (Lectura y Escritura)</li>
-                    <li><strong>Portugués:</strong> Nivel Intermedio (Certificado de Suficiencia)</li>
-                </ul>
-                <br>
-                <div style="text-align: center;">
-                    <a href="https://concytec.gob.pe" target="_blank" class="btn-verify">
-                        ✓ Verificar Perfil Oficial CONCYTEC
-                    </a>
-                </div>
-            </section>
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+    <div class="hero-bg">
+        <canvas id="dots"></canvas>
+        <div class="hero-gradient"></div>
+    </div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Ingeniería Estadística e Informática</p>
+        <h1 class="hero-name">Briggitte Jhosselyn<br><span>Vilca Chambilla</span></h1>
+        <p class="hero-title">Datos, lógica y decisiones que transforman</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-number">VI</div>
+                <div class="hero-stat-label">Semestre</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">4+</div>
+                <div class="hero-stat-label">Proyectos</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-number">6+</div>
+                <div class="hero-stat-label">Herramientas</div>
+            </div>
         </div>
+    </div>
+    <div class="scroll-hint"><span></span></div>
+</section>
 
-        <!-- SECCIÓN 3: EXPERIENCIA INSTITUCIONAL -->
-        <section id="experiencia">
-            <h2>💼 Experiencia Laboral e Institucional</h2>
-            <ul>
-                <li>
-                    <strong>Presidente del Capítulo de Ingenieros Estadísticos e Informáticos</strong><br>
-                    Colegio de Ingenieros del Perú — Consejo Departamental Puno
-                    <br><span class="badge">Octubre 2022 - Actualidad</span>
-                </li>
-                <li>
-                    <strong>Docente Universitario Ordinario / Investigador</strong><br>
-                    Universidad Nacional del Altiplano Puno (UNA Puno)
-                    <br><span class="badge">2020 - Actualidad</span>
-                </li>
-                <li>
-                    <strong>Docente Auxiliar Ordinario</strong><br>
-                    Universidad Nacional de Moquegua (UNAM) [CTI Vitae - CONCYTEC]
-                </li>
-            </ul>
-        </section>
+<!-- ═══════ SOBRE MÍ ═══════ -->
+<section id="sobre-mi">
+    <div class="container">
+        <div class="section-label">Perfil</div>
+        <h2 class="section-title">Sobre mí</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    Soy estudiante de <strong>Ingeniería Estadística e Informática</strong> en la Universidad Nacional del Altiplano, Puno. Me apasiona descifrar patrones donde otros ven solo números: desde modelos de series de tiempo hasta algoritmos de clustering que revelan estructuras ocultas en datos reales.
+                </p>
+                <p>
+                    Mi fortaleza está en la <strong>lógica analítica</strong> y el pensamiento estructurado. Disfruto resolver problemas complejos y traducir resultados estadísticos en conclusiones claras y útiles. Creo firmemente en el <strong>trabajo en equipo</strong> como motor para alcanzar objetivos ambiciosos.
+                </p>
+                <p>
+                    Busco oportunidades donde pueda aplicar mis conocimientos en ciencia de datos, econometría y análisis cuantitativo para generar impacto en decisiones estratégicas.
+                </p>
+            </div>
+            <div class="about-highlight">
+                <h3>Datos personales</h3>
+                <div class="info-row">
+                    <span class="info-label">Universidad</span>
+                    <span class="info-value">UNA Puno</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Facultad</span>
+                    <span class="info-value">Ing. Estadística e Informática</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Código</span>
+                    <span class="info-value">230307</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Semestre</span>
+                    <span class="info-value">VI</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Región</span>
+                    <span class="info-value">Puno — Arequipa</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Idiomas</span>
+                    <span class="info-value">Español · Quechua</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <!-- SECCIÓN 4: PROPIEDAD INTELECTUAL -->
-        <section id="propiedad-intelectual">
-            <h2>🛠️ Registro de Software y Patentes (INDECOPI)</h2>
-            <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 1rem;">Soluciones tecnológicas y sistemas con derechos de autor reconocidos por el Estado Peruano:</p>
-            <ul>
-                <li>
-                    <span class="project-title">Criptologin</span> — Módulo integrable de validación de usuarios mediante token USB DNI electrónico (Reg. 31152022) [CTI Vitae - CONCYTEC].
-                </li>
-                <li>
-                    <span class="project-title">Enviromaker</span> — Software de procesamiento y generación de ambientes tridimensionales (Reg. 31132022) [CTI Vitae - CONCYTEC].
-                </li>
-                <li>
-                    <span class="project-title">GLPAK GUI</span> — Interfaz gráfica para renderizado 3D en ventanas Win GDI+ (Reg. 31122022) [CTI Vitae - CONCYTEC].
-                </li>
-                <li>
-                    <span class="project-title">Plataforma de Certificación Electrónica</span> — Desarrollo arquitectónico de software para emisión de firmas seguras (Reg. 1382017) [CTI Vitae - CONCYTEC].
-                </li>
-            </ul>
-        </section>
+<!-- ═══════ FORMACIÓN ═══════ -->
+<section id="formacion" style="background: rgba(18,18,31,0.5);">
+    <div class="container">
+        <div class="section-label">Educación</div>
+        <h2 class="section-title">Formación académica</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-period">2023 — Actualidad</div>
+                <div class="timeline-role">Ingeniería Estadística e Informática</div>
+                <div class="timeline-org">Universidad Nacional del Altiplano — Puno, Perú</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-period">Cursos complementarios</div>
+                <div class="timeline-role">Econometría · Series de Tiempo · Ciencia de Datos</div>
+                <div class="timeline-org">Formación avanzada en modelamiento SARIMA, ARCH, regresión múltiple y aprendizaje no supervisado</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <!-- SECCIÓN 5: PRODUCCIÓN CIENTÍFICA -->
-        <section id="investigacion">
-            <h2>🔬 Producción Científica e Investigación</h2>
-            <ul>
-                <li>
-                    <strong>Capítulo de Libro (2023):</strong> "Predicción de diabetes en mujeres mediante un modelo probabilístico basado en Redes Bayesianas" en la publicación internacional <em>O Cuidado em Saúde Baseado em Evidências</em> [CTI Vitae - CONCYTEC].
-                </li>
-                <li>
-                    <strong>Artículo de Revista (2022):</strong> "Arquitectura pervasiva con tecnologías WebRTC híbridas para el desarrollo de un framework Modelo Vista Controlador de tiempo real" [CTI Vitae - CONCYTEC].
-                </li>
-                <li>
-                    <strong>Tesis de Postgrado (2021):</strong> "Redes privadas virtuales multimedia y su influencia en la seguridad de la información" — Universidad Nacional del Altiplano.
-                </li>
-            </ul>
-            
-            <!-- CONTENEDOR DE ENLACES DE VERIFICACIÓN -->
+<!-- ═══════ HABILIDADES ═══════ -->
+<section id="habilidades">
+    <div class="container">
+        <div class="section-label">Competencias</div>
+        <h2 class="section-title">Habilidades técnicas</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <span class="skill-icon">📊</span>
+                <h3>Análisis Estadístico</h3>
+                <p>Regresión lineal, pruebas de hipótesis, ANOVA, intervalos de confianza y diagnóstico de supuestos.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Minitab</span>
+                    <span class="skill-tag">Excel</span>
+                    <span class="skill-tag">SPSS</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">📈</span>
+                <h3>Econometría & Series de Tiempo</h3>
+                <p>Modelamiento SARIMA, ARCH/GARCH, pruebas ADF, correlograma ACF/PACF, Box-Jenkins.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">EViews</span>
+                    <span class="skill-tag">R</span>
+                    <span class="skill-tag teal">Stata</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">🤖</span>
+                <h3>Ciencia de Datos</h3>
+                <p>Clustering (K-Means, DBSCAN, Jerárquico), PCA, aprendizaje no supervisado y visualización de datos.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag teal">Python</span>
+                    <span class="skill-tag teal">Jupyter</span>
+                    <span class="skill-tag teal">Colab</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">🧮</span>
+                <h3>Álgebra Matricial</h3>
+                <p>Estimación MCO por matrices, inversas X'X, cálculo de β̂, R² y verificación numérica.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Excel</span>
+                    <span class="skill-tag">Minitab</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">📝</span>
+                <h3>Redacción Académica</h3>
+                <p>Elaboración de informes técnicos, tesis y documentos con formato profesional.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">LaTeX</span>
+                    <span class="skill-tag">Word</span>
+                    <span class="skill-tag teal">Overleaf</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">⚡</span>
+                <h3>IoT & Automatización</h3>
+                <p>Diseño de sistemas inteligentes con sensores, telemetría GSM y control automatizado.</p>
+                <div class="skill-tags">
+                    <span class="skill-tag teal">Arduino</span>
+                    <span class="skill-tag teal">SIM800L</span>
+                    <span class="skill-tag teal">Sensores</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ PROYECTOS ═══════ -->
+<section id="proyectos" style="background: rgba(18,18,31,0.5);">
+    <div class="container">
+        <div class="section-label">Portafolio</div>
+        <h2 class="section-title">Proyectos destacados</h2>
+        <div class="projects-grid">
+            <div class="project-card featured">
+                <div>
+                    <div class="project-number">01</div>
+                    <h3>Modelamiento SARIMA de concentraciones de PM₁₀ en Arequipa</h3>
+                    <p>Análisis completo de series de tiempo de calidad del aire (Enero 2015 – Abril 2026) aplicando la metodología Box-Jenkins. Modelo SARIMA(2,0,0)(0,0,0)₁₂ estimado en EViews 13 con diagnósticos ADF, correlograma y validación cruzada.</p>
+                    <div class="project-meta">
+                        <span>📅 2026</span>
+                        <span>🛠️ EViews · Minitab · LaTeX</span>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:center;">
+                    <svg viewBox="0 0 200 120" style="width:100%; max-width:280px; opacity:0.6;">
+                        <polyline points="10,90 30,70 50,80 70,45 90,55 110,30 130,50 150,35 170,40 190,25" fill="none" stroke="#C9A96E" stroke-width="2"/>
+                        <polyline points="10,95 30,85 50,88 70,60 90,65 110,50 130,60 150,55 170,52 190,45" fill="none" stroke="#4A9BAF" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <circle cx="70" cy="45" r="3" fill="#C9A96E"/>
+                        <circle cx="110" cy="30" r="3" fill="#C9A96E"/>
+                        <circle cx="190" cy="25" r="3" fill="#C9A96E"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">02</div>
+                <h3>Regresión lineal simple: Precios y demanda de naranjas</h3>
+                <p>Estimación MCO, residuos, R²=88.91%, Shapiro-Wilk, Durbin-Watson, ANOVA (F=80.14) y bandas de confianza al 95%.</p>
+                <div class="project-meta">
+                    <span>📅 2026</span>
+                    <span>🛠️ Excel · LaTeX</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">03</div>
+                <h3>Clustering no supervisado: Iris & datos socioeconómicos</h3>
+                <p>K-Means con PCA, métricas de evaluación (Silhouette, Davies-Bouldin), comparativa DBSCAN vs. Jerárquico en Python.</p>
+                <div class="project-meta">
+                    <span>📅 2026</span>
+                    <span>🛠️ Python · Colab</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-number">04</div>
+                <h3>Sistema inteligente de riego — Yuramayo, Arequipa</h3>
+                <p>Automatización de riego para molle y crianza de cuyes con Arduino, sensores de humedad, bombas 12V y alertas GSM vía SIM800L.</p>
+                <div class="project-meta">
+                    <span>📅 2026</span>
+                    <span>🛠️ Arduino · GSM</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ COMPETENCIAS BLANDAS ═══════ -->
+<section>
+    <div class="container">
+        <div class="section-label">Fortalezas</div>
+        <h2 class="section-title">Competencias personales</h2>
+        <div class="soft-grid">
+            <div class="soft-item">
+                <span class="soft-icon">🧠</span>
+                <h4>Pensamiento lógico</h4>
+                <p>Resolución estructurada de problemas complejos</p>
+            </div>
+            <div class="soft-item">
+                <span class="soft-icon">🤝</span>
+                <h4>Trabajo en equipo</h4>
+                <p>Colaboración y comunicación efectiva</p>
+            </div>
+            <div class="soft-item">
+                <span class="soft-icon">🎯</span>
+                <h4>Orientación a resultados</h4>
+                <p>Foco en entregables concretos y medibles</p>
+            </div>
+            <div class="soft-item">
+                <span class="soft-icon">📚</span>
+                <h4>Aprendizaje continuo</h4>
+                <p>Curiosidad y adaptación constante</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ CONTACTO ═══════ -->
+<section id="contacto" style="background: rgba(18,18,31,0.5);">
+    <div class="container">
+        <div class="contact-box">
+            <h3>¿Trabajamos juntos?</h3>
+            <p>Estoy abierta a oportunidades en ciencia de datos, análisis estadístico y consultoría cuantitativa.</p>
+            <div class="contact-links">
+                <a href="mailto:bvilcac@est.unap.edu.pe" class="contact-link primary">✉ Enviar correo</a>
+                <a href="#" class="contact-link secondary">⬇ Descargar CV</a>
+                <a href="#" class="contact-link secondary">in LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+    <div class="footer-brand">Briggitte Vilca Chambilla</div>
+    <p>© 2026 — Diseñado con precisión estadística.</p>
+</footer>
+
+<!-- ═══════ SCRIPT: SCATTER DOTS ═══════ -->
+<script>
+(function(){
+    const canvas = document.getElementById('dots');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles = [];
+
+    function resize(){
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    function init(){
+        resize();
+        particles = [];
+        const count = Math.floor((w * h) / 8000);
+        for(let i = 0; i < count; i++){
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.5 + 0.5,
+                dx: (Math.random() - 0.5) * 0.3,
+                dy: (Math.random() - 0.5) * 0.3,
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+    }
+
+    function draw(){
+        ctx.clearRect(0, 0, w, h);
+        particles.forEach(p => {
+            p.x += p.dx;
+            p.y += p.dy;
+            if(p.x < 0) p.x = w;
+            if(p.x > w) p.x = 0;
+            if(p.y < 0) p.y = h;
+            if(p.y > h) p.y = 0;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(201,169,110,${p.alpha})`;
+            ctx.fill();
+        });
+        // Connect nearby
+        for(let i = 0; i < particles.length; i++){
+            for(let j = i+1; j < particles.length; j++){
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const d = Math.sqrt(dx*dx + dy*dy);
+                if(d < 100){
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(74,155,175,${0.08 * (1 - d/100)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); });
+    init();
+    draw();
+})();
+</script>
+
+</body>
+</html>
