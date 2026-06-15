@@ -5,1063 +5,758 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Briggitte J. Vilca Chambilla — Estadística · Informática · Investigación</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ink: #08080F;
-            --surface: #0E0E18;
-            --card: #131320;
-            --card-hover: #1a1a30;
+            --bg: #060610;
+            --bg2: #0a0a1a;
+            --card: rgba(14,14,30,0.7);
+            --card-solid: #0e0e1e;
+            --glass: rgba(20,20,42,0.45);
+            --glass-border: rgba(200,165,90,0.08);
             --amber: #C8A55A;
-            --amber-light: #E0CFA0;
-            --amber-glow: rgba(200,165,90,0.08);
-            --amber-border: rgba(200,165,90,0.12);
+            --amber-l: #E0CFA0;
+            --amber-glow: rgba(200,165,90,0.06);
             --violet: #8B7FB8;
-            --violet-dim: rgba(139,127,184,0.1);
+            --violet-l: #B0A5D4;
             --teal: #5BA4A4;
-            --teal-dim: rgba(91,164,164,0.1);
-            --text: #DAD5CB;
-            --text-secondary: #8A857B;
-            --text-muted: #4E4B45;
+            --teal-l: #89C9C9;
+            --rose: #B8697A;
+            --text: #D6D1C7;
+            --text2: #8A857B;
+            --text3: #4A4740;
             --white: #F0ECE3;
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Source Sans 3', sans-serif;
-            background: var(--ink);
-            color: var(--text);
-            line-height: 1.75;
-            font-weight: 300;
-            overflow-x: hidden;
-        }
-        ::selection { background: var(--amber); color: var(--ink); }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-weight:300;overflow-x:hidden}
+        ::selection{background:var(--amber);color:var(--bg)}
 
-        /* ─── NAV ──────────────────────────────────── */
-        .nav {
-            position: fixed; top: 0; width: 100%; z-index: 999;
-            padding: 1rem 3rem;
-            display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(24px) saturate(120%);
-            background: rgba(8,8,15,0.7);
-            border-bottom: 1px solid var(--amber-border);
-            transition: padding 0.3s;
-        }
-        .nav-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem; font-weight: 700;
-            color: var(--amber);
-            letter-spacing: 0.02em;
-        }
-        .nav-links { display: flex; gap: 2.2rem; list-style: none; }
-        .nav-links a {
-            color: var(--text-secondary); text-decoration: none;
-            font-size: 0.72rem; font-weight: 600;
-            letter-spacing: 0.12em; text-transform: uppercase;
-            transition: color 0.3s;
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute;
-            bottom: -4px; left: 0; width: 0; height: 1px;
-            background: var(--amber); transition: width 0.3s;
-        }
-        .nav-links a:hover { color: var(--amber); }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* ─── HERO ─────────────────────────────────── */
-        .hero {
-            min-height: 100vh;
-            display: grid; grid-template-columns: 1fr 1fr;
-            align-items: center;
-            padding: 6rem 5rem 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-canvas-wrap {
-            position: absolute; inset: 0; z-index: 0;
-        }
-        .hero-canvas-wrap canvas { width: 100%; height: 100%; }
-        .hero-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(8,8,15,0.92), rgba(8,8,15,0.7) 60%, rgba(8,8,15,0.85));
-            z-index: 1;
-        }
-        .hero-left {
-            position: relative; z-index: 2;
-        }
-        .hero-tag {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.7rem; color: var(--teal);
-            letter-spacing: 0.18em; text-transform: uppercase;
-            margin-bottom: 1.8rem;
-            opacity: 0; animation: slideIn 0.7s 0.3s forwards;
-        }
-        .hero-name {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-            font-weight: 800; line-height: 1.08;
-            color: var(--white);
-            margin-bottom: 0.4rem;
-            opacity: 0; animation: slideIn 0.7s 0.5s forwards;
-        }
-        .hero-name em {
-            font-style: italic; font-weight: 400;
-            color: var(--amber);
-            display: block;
-            font-size: 0.75em;
-        }
-        .hero-subtitle {
-            font-size: 1rem; color: var(--text-secondary);
-            margin-top: 1.2rem; max-width: 420px;
-            opacity: 0; animation: slideIn 0.7s 0.7s forwards;
-        }
-        .hero-quote {
-            margin-top: 2.5rem;
-            padding-left: 1.2rem;
-            border-left: 2px solid var(--violet);
-            opacity: 0; animation: slideIn 0.7s 0.9s forwards;
-        }
-        .hero-quote p {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 0.95rem;
-            color: var(--violet);
-            line-height: 1.6;
-        }
-        .hero-quote cite {
-            display: block; margin-top: 0.4rem;
-            font-family: 'Source Sans 3', sans-serif;
-            font-style: normal;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
-        .hero-right {
-            position: relative; z-index: 2;
-            display: flex; flex-direction: column;
-            align-items: flex-end; gap: 1.5rem;
-            opacity: 0; animation: slideIn 0.7s 1s forwards;
-        }
-        .hero-stat-card {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            padding: 1.2rem 2rem;
-            min-width: 220px;
-            text-align: right;
-            transition: all 0.3s;
-        }
-        .hero-stat-card:hover {
-            border-color: rgba(200,165,90,0.3);
-            transform: translateX(-4px);
-        }
-        .hero-stat-card .num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem; font-weight: 700;
-            color: var(--amber);
-            line-height: 1;
-        }
-        .hero-stat-card .label {
-            font-size: 0.7rem; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.1em;
-            margin-top: 0.2rem;
+        /* ═══ CURSOR GLOW ═══ */
+        .cursor-glow{
+            position:fixed;width:500px;height:500px;
+            border-radius:50%;pointer-events:none;z-index:0;
+            background:radial-gradient(circle,rgba(200,165,90,0.04) 0%,transparent 70%);
+            transform:translate(-50%,-50%);
+            transition:left 0.3s ease,top 0.3s ease;
         }
 
-        /* ─── DIVIDER ──────────────────────────────── */
-        .divider {
-            width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--amber-border) 20%, var(--amber-border) 80%, transparent);
+        /* ═══ NAV ═══ */
+        .nav{
+            position:fixed;top:0;width:100%;z-index:999;
+            padding:1.1rem 3rem;
+            display:flex;justify-content:space-between;align-items:center;
+            backdrop-filter:blur(28px) saturate(130%);
+            background:rgba(6,6,16,0.65);
+            border-bottom:1px solid var(--glass-border);
+            transition:all 0.4s;
         }
+        .nav.scrolled{padding:0.7rem 3rem;background:rgba(6,6,16,0.88)}
+        .nav-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--amber);letter-spacing:0.03em}
+        .nav-links{display:flex;gap:2rem;list-style:none}
+        .nav-links a{
+            color:var(--text2);text-decoration:none;
+            font-size:0.7rem;font-weight:600;
+            letter-spacing:0.14em;text-transform:uppercase;
+            transition:color 0.3s;position:relative;
+        }
+        .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--amber);transition:width 0.3s}
+        .nav-links a:hover{color:var(--amber)}
+        .nav-links a:hover::after{width:100%}
+        .nav-menu-btn{display:none;background:none;border:none;color:var(--amber);font-size:1.3rem;cursor:pointer}
 
-        /* ─── CONTAINER / SECTIONS ─────────────────── */
-        .wrap { max-width: 1060px; margin: 0 auto; padding: 0 3rem; }
-        section { padding: 5rem 0; }
-        .sec-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.62rem; letter-spacing: 0.22em;
-            text-transform: uppercase; color: var(--amber);
-            margin-bottom: 0.6rem;
-            display: flex; align-items: center; gap: 0.7rem;
+        /* ═══ HERO ═══ */
+        .hero{
+            min-height:100vh;display:flex;align-items:center;
+            position:relative;overflow:hidden;
+            padding:0 5rem;
         }
-        .sec-label::before {
-            content: ''; width: 20px; height: 1px; background: var(--amber);
+        .hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+        .hero-overlay{
+            position:absolute;inset:0;z-index:1;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 50%, rgba(200,165,90,0.04) 0%, transparent 100%),
+                radial-gradient(ellipse 40% 60% at 80% 30%, rgba(139,127,184,0.03) 0%, transparent 100%),
+                linear-gradient(180deg, rgba(6,6,16,0.6) 0%, rgba(6,6,16,0.85) 100%);
         }
-        .sec-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem; font-weight: 700;
-            color: var(--white); line-height: 1.2;
-            margin-bottom: 2.5rem;
+        .hero-content{position:relative;z-index:2;max-width:680px}
+        .hero-tag{
+            font-family:'Fira Code',monospace;
+            font-size:0.68rem;color:var(--teal);
+            letter-spacing:0.2em;text-transform:uppercase;
+            margin-bottom:2rem;
+            display:flex;align-items:center;gap:0.8rem;
         }
+        .hero-tag::before{content:'';width:28px;height:1px;background:var(--teal)}
+        .hero-name{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(2.8rem,5.8vw,4.8rem);
+            font-weight:800;line-height:1.05;color:var(--white);
+        }
+        .hero-name .surname{
+            display:block;font-style:italic;font-weight:600;
+            color:var(--amber);font-size:0.8em;
+            margin-top:0.1em;
+        }
+        .hero-typed-wrap{
+            margin-top:1.5rem;min-height:2rem;
+            font-size:0.95rem;color:var(--text2);
+        }
+        .typed-cursor{
+            display:inline-block;width:2px;height:1.1em;
+            background:var(--amber);margin-left:2px;
+            vertical-align:text-bottom;
+            animation:blink 0.9s step-end infinite;
+        }
+        .hero-quote{
+            margin-top:2.5rem;padding:1.2rem 0 1.2rem 1.2rem;
+            border-left:2px solid var(--violet);
+        }
+        .hero-quote p{
+            font-family:'Playfair Display',serif;font-style:italic;
+            font-size:0.92rem;color:var(--violet-l);line-height:1.65;
+        }
+        .hero-quote cite{
+            display:block;margin-top:0.4rem;
+            font-family:'Inter',sans-serif;font-style:normal;
+            font-size:0.7rem;color:var(--text3);letter-spacing:0.05em;
+        }
+        .hero-cta{
+            margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;
+        }
+        .btn{
+            display:inline-flex;align-items:center;gap:0.5rem;
+            padding:0.75rem 1.8rem;border-radius:6px;
+            text-decoration:none;font-size:0.8rem;font-weight:600;
+            letter-spacing:0.04em;transition:all 0.35s;cursor:pointer;border:none;
+        }
+        .btn-gold{background:var(--amber);color:var(--bg)}
+        .btn-gold:hover{background:var(--amber-l);transform:translateY(-2px);box-shadow:0 8px 25px rgba(200,165,90,0.2)}
+        .btn-ghost{border:1px solid rgba(200,165,90,0.2);color:var(--text);background:transparent}
+        .btn-ghost:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
 
-        /* ─── ABOUT ────────────────────────────────── */
-        .about-layout {
-            display: grid; grid-template-columns: 5fr 4fr;
-            gap: 3.5rem; align-items: start;
+        /* Hero side stats */
+        .hero-aside{
+            position:absolute;right:5rem;top:50%;transform:translateY(-50%);
+            z-index:2;display:flex;flex-direction:column;gap:1.2rem;
         }
-        .about-prose p {
-            font-size: 0.93rem; color: var(--text-secondary);
-            margin-bottom: 1.2rem; text-align: justify;
+        .h-stat{
+            background:var(--glass);backdrop-filter:blur(12px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            padding:1rem 1.8rem;text-align:right;min-width:200px;
+            transition:all 0.35s;
         }
-        .about-prose strong { color: var(--text); font-weight: 500; }
-        .about-prose .highlight-line {
-            color: var(--amber-light);
-            font-weight: 400;
-        }
-        .info-panel {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .info-panel-head {
-            padding: 1.2rem 1.5rem;
-            background: var(--amber-glow);
-            border-bottom: 1px solid var(--amber-border);
-        }
-        .info-panel-head h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem; color: var(--amber);
-        }
-        .info-panel-body { padding: 0.5rem 1.5rem; }
-        .info-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            font-size: 0.82rem;
-        }
-        .info-row:last-child { border-bottom: none; }
-        .info-key { color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
-        .info-val { color: var(--text); font-weight: 500; text-align: right; }
+        .h-stat:hover{transform:translateX(-5px);border-color:rgba(200,165,90,0.2)}
+        .h-stat .n{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--amber);line-height:1}
+        .h-stat .l{font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.15rem}
 
-        /* ─── PHILOSOPHY ───────────────────────────── */
-        .philosophy-section { background: var(--surface); }
-        .philosophy-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+        /* ═══ SECTIONS ═══ */
+        .wrap{max-width:1080px;margin:0 auto;padding:0 3rem}
+        section{padding:6rem 0}
+        .sec-tag{
+            font-family:'Fira Code',monospace;font-size:0.6rem;
+            letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);
+            margin-bottom:0.5rem;display:flex;align-items:center;gap:0.7rem;
         }
-        .phil-card {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.4s;
+        .sec-tag::before{content:'';width:20px;height:1px;background:var(--amber)}
+        .sec-h{
+            font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;
+            color:var(--white);line-height:1.15;margin-bottom:2.5rem;
         }
-        .phil-card:hover {
-            border-color: rgba(200,165,90,0.3);
-            transform: translateY(-3px);
-        }
-        .phil-card .phil-icon {
-            font-size: 1.4rem; margin-bottom: 0.8rem;
-        }
-        .phil-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem; color: var(--white);
-            margin-bottom: 0.4rem;
-        }
-        .phil-card p {
-            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
-        }
+        .sep{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--glass-border) 20%,var(--glass-border) 80%,transparent)}
 
-        /* ─── INFLUENCES ───────────────────────────── */
-        .influences-row {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 1.5rem; margin-top: 2rem;
-        }
-        .influence-card {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            padding: 2rem 2rem 1.5rem;
-            display: flex; gap: 1.5rem;
-            align-items: flex-start;
-            transition: all 0.4s;
-        }
-        .influence-card:hover {
-            border-color: rgba(139,127,184,0.35);
-            transform: translateY(-3px);
-        }
-        .influence-avatar {
-            width: 56px; height: 56px; border-radius: 50%;
-            flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem; font-weight: 700;
-            color: var(--ink);
-        }
-        .influence-avatar.tesla { background: linear-gradient(135deg, var(--amber), #D4B86A); }
-        .influence-avatar.dazai { background: linear-gradient(135deg, var(--violet), #A99BD4); }
-        .influence-body h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem; color: var(--white);
-            margin-bottom: 0.15rem;
-        }
-        .influence-body .influence-role {
-            font-size: 0.72rem; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.06em;
-            margin-bottom: 0.6rem;
-        }
-        .influence-body p {
-            font-size: 0.8rem; color: var(--text-secondary);
-            line-height: 1.65;
-        }
+        /* ═══ REVEAL ═══ */
+        .rv{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1)}
+        .rv.vis{opacity:1;transform:translateY(0)}
+        .rv-d1{transition-delay:0.1s}.rv-d2{transition-delay:0.2s}.rv-d3{transition-delay:0.3s}.rv-d4{transition-delay:0.4s}
 
-        /* ─── EDUCATION ────────────────────────────── */
-        .edu-timeline { position: relative; padding-left: 2rem; }
-        .edu-timeline::before {
-            content: ''; position: absolute;
-            left: 0; top: 8px; bottom: 8px;
-            width: 1px;
-            background: linear-gradient(to bottom, var(--amber), var(--violet), transparent);
+        /* ═══ ABOUT ═══ */
+        .about-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:3.5rem;align-items:start}
+        .about-text p{font-size:0.92rem;color:var(--text2);margin-bottom:1.2rem;text-align:justify}
+        .about-text strong{color:var(--text);font-weight:500}
+        .hl{color:var(--amber-l);font-weight:400}
+        .panel{
+            background:var(--glass);backdrop-filter:blur(16px);
+            border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;
         }
-        .edu-item {
-            position: relative;
-            margin-bottom: 2rem;
-            padding: 1.4rem 1.8rem;
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        .edu-item:hover {
-            transform: translateX(4px);
-            border-color: rgba(200,165,90,0.25);
-        }
-        .edu-item::before {
-            content: '';
-            position: absolute;
-            left: -2rem; top: 1.6rem;
-            width: 7px; height: 7px;
-            border-radius: 50%; background: var(--amber);
-            transform: translateX(-3px);
-            box-shadow: 0 0 8px rgba(200,165,90,0.4);
-        }
-        .edu-period {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.65rem; color: var(--teal);
-            letter-spacing: 0.08em;
-        }
-        .edu-degree {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem; font-weight: 700;
-            color: var(--white);
-            margin: 0.2rem 0;
-        }
-        .edu-school { font-size: 0.85rem; color: var(--text-secondary); }
+        .panel-head{padding:1.1rem 1.5rem;background:var(--amber-glow);border-bottom:1px solid var(--glass-border)}
+        .panel-head h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--amber)}
+        .panel-body{padding:0.3rem 1.5rem}
+        .row{display:flex;justify-content:space-between;align-items:center;padding:0.72rem 0;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.82rem}
+        .row:last-child{border-bottom:none}
+        .rk{color:var(--text3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em}
+        .rv2{color:var(--text);font-weight:500;text-align:right}
 
-        /* ─── SKILLS ───────────────────────────────── */
-        .skills-section { background: var(--surface); }
-        .skills-domains {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+        /* ═══ IDENTITY ═══ */
+        .id-section{background:var(--bg2)}
+        .id-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+        .id-card{
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            padding:2rem;transition:all 0.4s;position:relative;overflow:hidden;
         }
-        .domain-card {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            padding: 1.8rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
+        .id-card::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:2px;
+            opacity:0;transition:opacity 0.4s;
         }
-        .domain-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right: 0;
-            height: 2px; opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .domain-card.stat::before { background: linear-gradient(90deg, var(--amber), transparent); }
-        .domain-card.code::before { background: linear-gradient(90deg, var(--teal), transparent); }
-        .domain-card.data::before { background: linear-gradient(90deg, var(--violet), transparent); }
-        .domain-card.write::before { background: linear-gradient(90deg, var(--amber), var(--violet)); }
-        .domain-card.iot::before { background: linear-gradient(90deg, var(--teal), var(--amber)); }
-        .domain-card.research::before { background: linear-gradient(90deg, var(--violet), var(--teal)); }
-        .domain-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(200,165,90,0.25);
-        }
-        .domain-card:hover::before { opacity: 1; }
-        .domain-icon { font-size: 1.5rem; margin-bottom: 0.7rem; display: block; }
-        .domain-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.05rem; color: var(--white);
-            margin-bottom: 0.4rem;
-        }
-        .domain-card p {
-            font-size: 0.78rem; color: var(--text-secondary);
-            line-height: 1.6; margin-bottom: 0.7rem;
-        }
-        .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-        .tag {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.58rem; padding: 0.18rem 0.5rem;
-            border-radius: 3px; letter-spacing: 0.02em;
-        }
-        .tag.amber { background: var(--amber-glow); color: var(--amber-light); }
-        .tag.teal { background: var(--teal-dim); color: var(--teal); }
-        .tag.violet { background: var(--violet-dim); color: var(--violet); }
+        .id-card:nth-child(1)::before{background:linear-gradient(90deg,var(--amber),transparent)}
+        .id-card:nth-child(2)::before{background:linear-gradient(90deg,var(--violet),transparent)}
+        .id-card:nth-child(3)::before{background:linear-gradient(90deg,var(--teal),transparent)}
+        .id-card:nth-child(4)::before{background:linear-gradient(90deg,var(--rose),transparent)}
+        .id-card:hover{transform:translateY(-4px);border-color:rgba(200,165,90,0.18)}
+        .id-card:hover::before{opacity:1}
+        .id-card .ic{font-size:1.3rem;margin-bottom:0.6rem;display:block}
+        .id-card h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:0.4rem}
+        .id-card p{font-size:0.8rem;color:var(--text2);line-height:1.65}
 
-        /* ─── PROJECTS ─────────────────────────────── */
-        .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
-        .proj-card {
-            display: grid; grid-template-columns: 60px 1fr auto;
-            gap: 1.5rem; align-items: start;
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            padding: 2rem;
-            transition: all 0.4s;
+        /* Influences */
+        .inf-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+        .inf-card{
+            display:flex;gap:1.4rem;align-items:flex-start;
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            padding:1.8rem;transition:all 0.4s;
         }
-        .proj-card:hover {
-            border-color: rgba(200,165,90,0.3);
-            transform: translateX(4px);
+        .inf-card:hover{border-color:rgba(139,127,184,0.25);transform:translateY(-3px)}
+        .inf-av{
+            width:52px;height:52px;border-radius:50%;flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;
+            font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--bg);
         }
-        .proj-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.4rem; font-weight: 800;
-            color: rgba(200,165,90,0.12);
-            line-height: 1;
-        }
-        .proj-body h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem; font-weight: 700;
-            color: var(--white); line-height: 1.3;
-            margin-bottom: 0.4rem;
-        }
-        .proj-body p {
-            font-size: 0.82rem; color: var(--text-secondary);
-            line-height: 1.65;
-        }
-        .proj-tools {
-            display: flex; flex-wrap: wrap; gap: 0.4rem;
-            margin-top: 0.6rem;
-        }
-        .proj-aside {
-            text-align: right;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
+        .inf-av.t{background:linear-gradient(135deg,var(--amber),#dbc078)}
+        .inf-av.d{background:linear-gradient(135deg,var(--violet),#a89ad0)}
+        .inf-body h4{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:0.1rem}
+        .inf-body .sub{font-size:0.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem}
+        .inf-body p{font-size:0.78rem;color:var(--text2);line-height:1.6}
 
-        /* ─── LANGUAGES ────────────────────────────── */
-        .lang-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem; margin-top: 2rem;
+        /* ═══ SKILLS ═══ */
+        .sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+        .sk-card{
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            padding:1.6rem;transition:all 0.4s;position:relative;overflow:hidden;
         }
-        .lang-card {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s;
+        .sk-card::after{
+            content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity 0.4s;
+            background:linear-gradient(90deg,var(--amber),var(--teal));
         }
-        .lang-card:hover { transform: translateY(-3px); border-color: rgba(200,165,90,0.25); }
-        .lang-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem; color: var(--white);
+        .sk-card:hover{transform:translateY(-4px);border-color:rgba(200,165,90,0.18)}
+        .sk-card:hover::after{opacity:1}
+        .sk-card .ski{font-size:1.4rem;margin-bottom:0.6rem;display:block}
+        .sk-card h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:0.3rem}
+        .sk-card p{font-size:0.76rem;color:var(--text2);line-height:1.6;margin-bottom:0.6rem}
+        .tgs{display:flex;flex-wrap:wrap;gap:0.3rem}
+        .tg{
+            font-family:'Fira Code',monospace;font-size:0.56rem;
+            padding:0.17rem 0.48rem;border-radius:3px;letter-spacing:0.02em;
         }
-        .lang-level {
-            font-size: 0.72rem; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.06em;
-            margin-top: 0.3rem;
-        }
-        .lang-bar {
-            height: 3px; border-radius: 2px;
-            background: rgba(255,255,255,0.05);
-            margin-top: 0.8rem; overflow: hidden;
-        }
-        .lang-bar-fill {
-            height: 100%; border-radius: 2px;
-            transition: width 1.5s ease;
-        }
-        .lang-bar-fill.native { width: 100%; background: var(--amber); }
-        .lang-bar-fill.intermediate { width: 55%; background: var(--teal); }
-        .lang-bar-fill.basic { width: 35%; background: var(--violet); }
+        .tg-a{background:var(--amber-glow);color:var(--amber-l)}
+        .tg-t{background:rgba(91,164,164,0.1);color:var(--teal-l)}
+        .tg-v{background:rgba(139,127,184,0.1);color:var(--violet-l)}
 
-        /* ─── SOFT SKILLS ──────────────────────────── */
-        .soft-section { background: var(--surface); }
-        .soft-strip {
-            display: grid; grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
+        /* Langs */
+        .lang-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:2rem}
+        .lang{
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            padding:1.4rem;text-align:center;transition:all 0.3s;
         }
-        .soft-pill {
-            text-align: center;
-            padding: 1.8rem 0.8rem;
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 10px;
-            transition: all 0.4s;
-        }
-        .soft-pill:hover {
-            border-color: var(--amber);
-            transform: translateY(-4px);
-        }
-        .soft-pill .s-icon { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
-        .soft-pill h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.88rem; color: var(--white);
-            margin-bottom: 0.2rem;
-        }
-        .soft-pill p { font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; }
+        .lang:hover{transform:translateY(-3px);border-color:rgba(200,165,90,0.2)}
+        .lang h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white)}
+        .lang .lv{font-size:0.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin:0.3rem 0 0.7rem}
+        .lang-bar{height:3px;border-radius:2px;background:rgba(255,255,255,0.04);overflow:hidden}
+        .lang-fill{height:100%;border-radius:2px;width:0;transition:width 1.8s cubic-bezier(.22,1,.36,1)}
+        .lang-fill.n{background:var(--amber)}.lang-fill.i{background:var(--teal)}.lang-fill.b{background:var(--violet)}
 
-        /* ─── CONTACT ──────────────────────────────── */
-        .contact-wrap {
-            background: var(--card);
-            border: 1px solid var(--amber-border);
-            border-radius: 14px;
-            padding: 3.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        /* ═══ EDUCATION ═══ */
+        .edu-section{background:var(--bg2)}
+        .tl{position:relative;padding-left:2rem}
+        .tl::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:linear-gradient(to bottom,var(--amber),var(--violet),transparent)}
+        .tl-item{
+            position:relative;margin-bottom:2rem;
+            padding:1.4rem 1.8rem;
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:8px;
+            transition:all 0.3s;
         }
-        .contact-wrap::before {
-            content: ''; position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--amber), var(--violet), var(--teal), transparent);
+        .tl-item:hover{transform:translateX(4px);border-color:rgba(200,165,90,0.2)}
+        .tl-item::before{
+            content:'';position:absolute;left:-2rem;top:1.5rem;
+            width:7px;height:7px;border-radius:50%;background:var(--amber);
+            transform:translateX(-3px);
+            box-shadow:0 0 10px rgba(200,165,90,0.4);
         }
-        .contact-wrap h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem; color: var(--white);
-            margin-bottom: 0.4rem;
-        }
-        .contact-wrap > p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            max-width: 480px;
-            margin-left: auto; margin-right: auto;
-        }
-        .contact-btns {
-            display: flex; justify-content: center;
-            gap: 0.8rem; flex-wrap: wrap;
-        }
-        .cbtn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.75rem 1.6rem; border-radius: 6px;
-            text-decoration: none; font-size: 0.82rem; font-weight: 500;
-            transition: all 0.3s;
-        }
-        .cbtn.gold { background: var(--amber); color: var(--ink); }
-        .cbtn.gold:hover { background: var(--amber-light); transform: translateY(-2px); }
-        .cbtn.outline { border: 1px solid var(--amber-border); color: var(--text); }
-        .cbtn.outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+        .tl-when{font-family:'Fira Code',monospace;font-size:0.63rem;color:var(--teal);letter-spacing:0.08em}
+        .tl-what{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--white);margin:0.15rem 0}
+        .tl-where{font-size:0.82rem;color:var(--text2)}
 
-        /* ─── FOOTER ───────────────────────────────── */
-        footer {
-            text-align: center; padding: 3rem 2rem;
-            border-top: 1px solid var(--amber-border);
+        /* ═══ PROJECTS ═══ */
+        .proj-list{display:flex;flex-direction:column;gap:1.3rem}
+        .proj{
+            display:grid;grid-template-columns:56px 1fr auto;gap:1.5rem;align-items:start;
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            padding:1.8rem 2rem;transition:all 0.4s;
         }
-        footer .f-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem; color: var(--amber);
-            margin-bottom: 0.3rem;
-        }
-        footer p { font-size: 0.7rem; color: var(--text-muted); }
-        footer .f-motto {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 0.78rem;
-            color: var(--violet);
-            margin-top: 0.6rem;
-        }
+        .proj:hover{border-color:rgba(200,165,90,0.22);transform:translateX(5px)}
+        .proj .pn{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:rgba(200,165,90,0.1);line-height:1}
+        .proj h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:0.35rem}
+        .proj p{font-size:0.8rem;color:var(--text2);line-height:1.65}
+        .proj .pt{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem}
+        .proj-side{text-align:right;font-family:'Fira Code',monospace;font-size:0.62rem;color:var(--text3);white-space:nowrap}
 
-        /* ─── ANIMATIONS ──────────────────────────── */
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(18px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* ═══ SOFT ═══ */
+        .soft-section{background:var(--bg2)}
+        .soft-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+        .soft{
+            text-align:center;padding:1.6rem 0.6rem;
+            background:var(--glass);backdrop-filter:blur(10px);
+            border:1px solid var(--glass-border);border-radius:10px;
+            transition:all 0.4s;
         }
-        .reveal {
-            opacity: 0; transform: translateY(20px);
-            transition: opacity 0.6s, transform 0.6s;
-        }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .soft:hover{border-color:var(--amber);transform:translateY(-4px)}
+        .soft .si{font-size:1.4rem;margin-bottom:0.4rem;display:block}
+        .soft h4{font-family:'Playfair Display',serif;font-size:0.85rem;color:var(--white);margin-bottom:0.15rem}
+        .soft p{font-size:0.62rem;color:var(--text3);line-height:1.5}
 
-        /* ─── RESPONSIVE ──────────────────────────── */
-        @media (max-width: 900px) {
-            .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; }
-            .hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; margin-top: 2rem; }
-            .nav { padding: 1rem 1.5rem; }
-            .nav-links { display: none; }
-            .wrap { padding: 0 1.5rem; }
-            .about-layout { grid-template-columns: 1fr; }
-            .skills-domains { grid-template-columns: 1fr 1fr; }
-            .philosophy-grid { grid-template-columns: 1fr; }
-            .influences-row { grid-template-columns: 1fr; }
-            .proj-card { grid-template-columns: 40px 1fr; }
-            .proj-aside { display: none; }
-            .lang-grid { grid-template-columns: 1fr; }
-            .soft-strip { grid-template-columns: repeat(3, 1fr); }
+        /* ═══ CONTACT ═══ */
+        .cta-box{
+            background:var(--glass);backdrop-filter:blur(16px);
+            border:1px solid var(--glass-border);border-radius:14px;
+            padding:3.5rem;text-align:center;position:relative;overflow:hidden;
         }
-        @media (max-width: 600px) {
-            .skills-domains { grid-template-columns: 1fr; }
-            .soft-strip { grid-template-columns: 1fr 1fr; }
-            .hero-name { font-size: 2.2rem; }
+        .cta-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--violet),var(--teal),transparent)}
+        .cta-box h3{font-family:'Playfair Display',serif;font-size:2rem;color:var(--white);margin-bottom:0.4rem}
+        .cta-box>p{color:var(--text2);font-size:0.88rem;margin-bottom:2rem;max-width:460px;margin-left:auto;margin-right:auto}
+        .cta-btns{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap}
+
+        /* ═══ FOOTER ═══ */
+        footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--glass-border)}
+        footer .fn{font-family:'Playfair Display',serif;font-size:1rem;color:var(--amber);margin-bottom:0.3rem}
+        footer p{font-size:0.68rem;color:var(--text3)}
+        footer .fm{font-family:'Playfair Display',serif;font-style:italic;font-size:0.76rem;color:var(--violet);margin-top:0.5rem}
+
+        @keyframes blink{50%{opacity:0}}
+
+        /* ═══ RESPONSIVE ═══ */
+        @media(max-width:1024px){
+            .hero{padding:0 3rem}
+            .hero-aside{position:relative;right:auto;top:auto;transform:none;flex-direction:row;flex-wrap:wrap;margin-top:2.5rem}
+            .hero{flex-direction:column;justify-content:center;align-items:flex-start}
+        }
+        @media(max-width:900px){
+            .nav{padding:0.9rem 1.5rem}
+            .nav-links{display:none}
+            .nav-menu-btn{display:block}
+            .wrap{padding:0 1.5rem}
+            .hero{padding:7rem 1.5rem 3rem;min-height:auto}
+            .hero-aside{gap:0.8rem}
+            .h-stat{min-width:auto;padding:0.8rem 1.2rem}
+            .about-grid{grid-template-columns:1fr}
+            .id-grid{grid-template-columns:1fr}
+            .inf-row{grid-template-columns:1fr}
+            .sk-grid{grid-template-columns:1fr 1fr}
+            .lang-row{grid-template-columns:1fr}
+            .proj{grid-template-columns:40px 1fr}
+            .proj-side{display:none}
+            .soft-row{grid-template-columns:repeat(3,1fr)}
+            .sec-h{font-size:1.9rem}
+        }
+        @media(max-width:600px){
+            .sk-grid{grid-template-columns:1fr}
+            .soft-row{grid-template-columns:1fr 1fr}
+            .hero-name{font-size:2.2rem}
+            .hero-aside .h-stat{flex:1;min-width:100px}
         }
     </style>
 </head>
 <body>
 
+<div class="cursor-glow" id="glow"></div>
+
 <!-- NAV -->
-<nav class="nav">
-    <div class="nav-brand">B. Vilca Ch.</div>
+<nav class="nav" id="nav">
+    <div class="nav-logo">B. Vilca Ch.</div>
     <ul class="nav-links">
-        <li><a href="#sobre-mi">Perfil</a></li>
-        <li><a href="#formacion">Formación</a></li>
-        <li><a href="#habilidades">Habilidades</a></li>
-        <li><a href="#proyectos">Proyectos</a></li>
-        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#about">Perfil</a></li>
+        <li><a href="#identity">Identidad</a></li>
+        <li><a href="#skills">Habilidades</a></li>
+        <li><a href="#education">Formación</a></li>
+        <li><a href="#projects">Proyectos</a></li>
+        <li><a href="#contact">Contacto</a></li>
     </ul>
+    <button class="nav-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menú">☰</button>
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero">
-    <div class="hero-canvas-wrap">
-        <canvas id="constellation"></canvas>
-        <div class="hero-overlay"></div>
-    </div>
+    <canvas id="net"></canvas>
+    <div class="hero-overlay"></div>
 
-    <div class="hero-left">
-        <p class="hero-tag">Estadística · Informática · Investigación</p>
+    <div class="hero-content">
+        <div class="hero-tag">Estadística · Informática · Investigación</div>
         <h1 class="hero-name">
             Briggitte Jhosselyn
-            <em>Vilca Chambilla</em>
+            <span class="surname">Vilca Chambilla</span>
         </h1>
-        <p class="hero-subtitle">
-            Prefiero que los datos hablen por mí. Estudiante de Ingeniería Estadística e Informática con enfoque en análisis cuantitativo, investigación aplicada y soluciones que se miden en resultados, no en palabras.
-        </p>
+        <div class="hero-typed-wrap">
+            <span id="typed"></span><span class="typed-cursor"></span>
+        </div>
         <div class="hero-quote">
             <p>«El presente no existe para ser disfrutado. Existe para ser superado.»</p>
             <cite>— Osamu Dazai</cite>
         </div>
+        <div class="hero-cta">
+            <a href="#contact" class="btn btn-gold">Contacto</a>
+            <a href="#projects" class="btn btn-ghost">Ver proyectos</a>
+        </div>
     </div>
 
-    <div class="hero-right">
-        <div class="hero-stat-card">
-            <div class="num">VI</div>
-            <div class="label">Semestre actual</div>
-        </div>
-        <div class="hero-stat-card">
-            <div class="num">4+</div>
-            <div class="label">Proyectos de investigación</div>
-        </div>
-        <div class="hero-stat-card">
-            <div class="num">8+</div>
-            <div class="label">Herramientas dominadas</div>
-        </div>
+    <div class="hero-aside">
+        <div class="h-stat"><div class="n">VI</div><div class="l">Semestre actual</div></div>
+        <div class="h-stat"><div class="n">4+</div><div class="l">Proyectos de investigación</div></div>
+        <div class="h-stat"><div class="n">8+</div><div class="l">Herramientas dominadas</div></div>
     </div>
 </section>
 
-<div class="divider"></div>
+<div class="sep"></div>
 
-<!-- ═══════════ SOBRE MÍ ═══════════ -->
-<section id="sobre-mi">
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
     <div class="wrap">
-        <div class="sec-label">Perfil profesional</div>
-        <h2 class="sec-title">Sobre mí</h2>
-        <div class="about-layout">
-            <div class="about-prose reveal">
+        <div class="sec-tag rv">Perfil profesional</div>
+        <h2 class="sec-h rv rv-d1">Sobre mí</h2>
+        <div class="about-grid">
+            <div class="about-text rv rv-d2">
                 <p>
                     Soy estudiante de <strong>Ingeniería Estadística e Informática</strong> en la Universidad Nacional del Altiplano, Puno. Me mueve la convicción de que detrás de cada conjunto de datos hay una historia esperando ser descubierta — y que la estadística es el idioma para contarla con rigor.
                 </p>
                 <p>
-                    Mi formación combina la rigurosidad del <strong>análisis cuantitativo</strong> con la versatilidad de la <strong>informática</strong>: desde modelar series de tiempo en EViews hasta implementar algoritmos de clustering en Python o diseñar sistemas IoT con Arduino. No me quedo en la teoría; necesito ver el código ejecutarse, los residuos pasar las pruebas, los datos contar la verdad.
+                    Mi formación combina la rigurosidad del <strong>análisis cuantitativo</strong> con la versatilidad de la <strong>informática</strong>: desde modelar series de tiempo en EViews hasta implementar clustering en Python o diseñar sistemas IoT con Arduino. No me quedo en la teoría; necesito ver el código ejecutarse, los residuos pasar las pruebas, los datos contar la verdad.
                 </p>
                 <p>
-                    <span class="highlight-line">Prefiero trabajar que hablar.</span> Creo en la lectura profunda, en el juicio propio construido sobre evidencia, y en que los mejores equipos son los que confían en el silencio productivo tanto como en la comunicación abierta. Fuera del aula, encuentro claridad en la literatura — especialmente en autores que no temen explorar las capas más incómodas de la condición humana.
+                    <span class="hl">Prefiero trabajar que hablar.</span> Creo en la lectura profunda, en el juicio propio construido sobre evidencia, y en que los mejores equipos son aquellos donde el silencio productivo pesa tanto como la comunicación abierta. Fuera del aula, encuentro claridad en la literatura — especialmente en autores que no temen explorar las capas más incómodas de la condición humana.
                 </p>
             </div>
-            <div class="info-panel reveal">
-                <div class="info-panel-head">
-                    <h3>Ficha académica</h3>
-                </div>
-                <div class="info-panel-body">
-                    <div class="info-row">
-                        <span class="info-key">Universidad</span>
-                        <span class="info-val">UNA Puno</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-key">Facultad</span>
-                        <span class="info-val">Ing. Estadística e Informática</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-key">Código</span>
-                        <span class="info-val">230307</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-key">Semestre</span>
-                        <span class="info-val">VI</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-key">Región</span>
-                        <span class="info-val">Puno — Arequipa</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-key">Enfoque</span>
-                        <span class="info-val">Ciencia de datos · Investigación</span>
-                    </div>
+            <div class="panel rv rv-d3">
+                <div class="panel-head"><h3>Ficha académica</h3></div>
+                <div class="panel-body">
+                    <div class="row"><span class="rk">Universidad</span><span class="rv2">UNA Puno</span></div>
+                    <div class="row"><span class="rk">Facultad</span><span class="rv2">Ing. Estadística e Informática</span></div>
+                    <div class="row"><span class="rk">Código</span><span class="rv2">230307</span></div>
+                    <div class="row"><span class="rk">Semestre</span><span class="rv2">VI</span></div>
+                    <div class="row"><span class="rk">Región</span><span class="rv2">Puno — Arequipa</span></div>
+                    <div class="row"><span class="rk">Enfoque</span><span class="rv2">Data Science · Research</span></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ═══════════ FILOSOFÍA & INFLUENCIAS ═══════════ -->
-<section class="philosophy-section">
+<!-- ═══════════ IDENTITY ═══════════ -->
+<section id="identity" class="id-section">
     <div class="wrap">
-        <div class="sec-label">Identidad</div>
-        <h2 class="sec-title">Lo que me define</h2>
-        <div class="philosophy-grid reveal">
-            <div class="phil-card">
-                <div class="phil-icon">🔇</div>
+        <div class="sec-tag rv">Identidad</div>
+        <h2 class="sec-h rv rv-d1">Lo que me define</h2>
+        <div class="id-grid rv rv-d2">
+            <div class="id-card">
+                <span class="ic">🔇</span>
                 <h3>Silencio productivo</h3>
-                <p>No necesito ruido para avanzar. Mi mejor trabajo nace en la concentración profunda, lejos de distracciones. Creo que los resultados hablan más fuerte que cualquier discurso.</p>
+                <p>No necesito ruido para avanzar. Mi mejor trabajo nace en la concentración profunda, lejos de distracciones. Los resultados hablan más fuerte que cualquier discurso.</p>
             </div>
-            <div class="phil-card">
-                <div class="phil-icon">📖</div>
+            <div class="id-card">
+                <span class="ic">📖</span>
                 <h3>Lectora por convicción</h3>
-                <p>Me atraen las lecturas metafóricas, los textos que obligan a pensar entre líneas. La literatura no es un escape: es otra forma de análisis, donde las variables son emociones y las hipótesis son humanas.</p>
+                <p>Me atraen las lecturas metafóricas, los textos que obligan a pensar entre líneas. La literatura no es un escape: es otra forma de análisis donde las variables son emociones.</p>
             </div>
-            <div class="phil-card">
-                <div class="phil-icon">⚖️</div>
+            <div class="id-card">
+                <span class="ic">⚖️</span>
                 <h3>Juicio propio</h3>
-                <p>Valoro la independencia intelectual. Antes de aceptar una conclusión, necesito entender el camino que lleva hasta ella. La evidencia manda, pero el criterio personal la interpreta.</p>
+                <p>Antes de aceptar una conclusión, necesito entender el camino que lleva hasta ella. La evidencia manda, pero el criterio personal la interpreta.</p>
             </div>
-            <div class="phil-card">
-                <div class="phil-icon">🔬</div>
+            <div class="id-card">
+                <span class="ic">🔬</span>
                 <h3>Investigación como vocación</h3>
-                <p>No investigo solo por requisito académico. Lo hago porque cada paper es un rompecabezas donde la metodología revela verdades que la intuición no alcanza a ver sola.</p>
+                <p>No investigo solo por requisito académico. Cada paper es un rompecabezas donde la metodología revela verdades que la intuición no alcanza a ver sola.</p>
             </div>
         </div>
 
-        <div class="sec-label" style="margin-top:3rem;">Referentes</div>
-        <h2 class="sec-title">Mentes que inspiran</h2>
-        <div class="influences-row reveal">
-            <div class="influence-card">
-                <div class="influence-avatar tesla">NT</div>
-                <div class="influence-body">
+        <div class="sec-tag rv" style="margin-top:3.5rem">Referentes</div>
+        <h2 class="sec-h rv rv-d1">Mentes que inspiran</h2>
+        <div class="inf-row rv rv-d2">
+            <div class="inf-card">
+                <div class="inf-av t">NT</div>
+                <div class="inf-body">
                     <h4>Nikola Tesla</h4>
-                    <div class="influence-role">Ingeniero · Inventor · Visionario</div>
-                    <p>Su capacidad de visualizar sistemas completos antes de construirlos, su disciplina obsesiva y su indiferencia al reconocimiento me recuerdan que el trabajo genuino no necesita aplausos — necesita consistencia.</p>
+                    <div class="sub">Ingeniero · Inventor · Visionario</div>
+                    <p>Su capacidad de visualizar sistemas completos antes de construirlos y su indiferencia al reconocimiento me recuerdan que el trabajo genuino no necesita aplausos — necesita consistencia.</p>
                 </div>
             </div>
-            <div class="influence-card">
-                <div class="influence-avatar dazai">OD</div>
-                <div class="influence-body">
+            <div class="inf-card">
+                <div class="inf-av d">OD</div>
+                <div class="inf-body">
                     <h4>Osamu Dazai</h4>
-                    <div class="influence-role">Escritor · Novelista · Poeta</div>
-                    <p>Su prosa desnuda y metafórica me enseña que la honestidad radical tiene su propia belleza, incluso cuando incomoda. Leerlo es un ejercicio de introspección que exige juicio propio, no consenso fácil.</p>
+                    <div class="sub">Escritor · Novelista · Poeta</div>
+                    <p>Su prosa desnuda y metafórica me enseña que la honestidad radical tiene su propia belleza. Leerlo es un ejercicio de introspección que exige juicio propio, no consenso fácil.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<div class="divider"></div>
+<div class="sep"></div>
 
-<!-- ═══════════ FORMACIÓN ═══════════ -->
-<section id="formacion">
+<!-- ═══════════ SKILLS ═══════════ -->
+<section id="skills">
     <div class="wrap">
-        <div class="sec-label">Educación</div>
-        <h2 class="sec-title">Formación académica</h2>
-        <div class="edu-timeline reveal">
-            <div class="edu-item">
-                <div class="edu-period">2023 — Actualidad · Semestre VI</div>
-                <div class="edu-degree">Ingeniería Estadística e Informática</div>
-                <div class="edu-school">Universidad Nacional del Altiplano — Puno, Perú</div>
-            </div>
-            <div class="edu-item">
-                <div class="edu-period">Formación complementaria</div>
-                <div class="edu-degree">Econometría · Series de Tiempo · Machine Learning</div>
-                <div class="edu-school">Modelamiento SARIMA/ARCH, regresión matricial, aprendizaje no supervisado (K-Means, DBSCAN, PCA)</div>
-            </div>
-            <div class="edu-item">
-                <div class="edu-period">Investigación aplicada</div>
-                <div class="edu-degree">Calidad del aire · Automatización agrícola</div>
-                <div class="edu-school">Series de tiempo de PM₁₀ en Arequipa · Sistema inteligente de riego IoT con Arduino y GSM</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════ HABILIDADES ═══════════ -->
-<section id="habilidades" class="skills-section">
-    <div class="wrap">
-        <div class="sec-label">Competencias</div>
-        <h2 class="sec-title">Habilidades técnicas</h2>
-        <div class="skills-domains reveal">
-            <div class="domain-card stat">
-                <span class="domain-icon">📊</span>
+        <div class="sec-tag rv">Competencias</div>
+        <h2 class="sec-h rv rv-d1">Habilidades técnicas</h2>
+        <div class="sk-grid rv rv-d2">
+            <div class="sk-card">
+                <span class="ski">📊</span>
                 <h3>Estadística aplicada</h3>
-                <p>Regresión, pruebas de hipótesis, ANOVA, intervalos de confianza, diagnóstico de supuestos.</p>
-                <div class="tags">
-                    <span class="tag amber">Minitab</span>
-                    <span class="tag amber">Excel</span>
-                    <span class="tag amber">SPSS</span>
-                </div>
+                <p>Regresión, pruebas de hipótesis, ANOVA, intervalos de confianza, verificación de supuestos.</p>
+                <div class="tgs"><span class="tg tg-a">Minitab</span><span class="tg tg-a">Excel</span><span class="tg tg-a">SPSS</span></div>
             </div>
-            <div class="domain-card code">
-                <span class="domain-icon">📈</span>
+            <div class="sk-card">
+                <span class="ski">📈</span>
                 <h3>Econometría</h3>
-                <p>SARIMA, ARCH/GARCH, ADF, Box-Jenkins, correlograma ACF/PACF, modelamiento predictivo.</p>
-                <div class="tags">
-                    <span class="tag teal">EViews</span>
-                    <span class="tag teal">R</span>
-                    <span class="tag amber">Stata</span>
-                </div>
+                <p>SARIMA, ARCH/GARCH, ADF, Box-Jenkins, ACF/PACF, predicción temporal.</p>
+                <div class="tgs"><span class="tg tg-t">EViews</span><span class="tg tg-t">R</span><span class="tg tg-a">Stata</span></div>
             </div>
-            <div class="domain-card data">
-                <span class="domain-icon">🤖</span>
+            <div class="sk-card">
+                <span class="ski">🤖</span>
                 <h3>Ciencia de datos</h3>
-                <p>Clustering, PCA, aprendizaje no supervisado, visualización y preprocesamiento de datos.</p>
-                <div class="tags">
-                    <span class="tag violet">Python</span>
-                    <span class="tag violet">Jupyter</span>
-                    <span class="tag violet">Colab</span>
-                </div>
+                <p>K-Means, DBSCAN, PCA, aprendizaje no supervisado, preprocesamiento y visualización.</p>
+                <div class="tgs"><span class="tg tg-v">Python</span><span class="tg tg-v">Jupyter</span><span class="tg tg-v">Colab</span></div>
             </div>
-            <div class="domain-card write">
-                <span class="domain-icon">📝</span>
+            <div class="sk-card">
+                <span class="ski">📝</span>
                 <h3>Redacción científica</h3>
-                <p>Papers, tesis e informes técnicos con formato profesional y estructura metodológica rigurosa.</p>
-                <div class="tags">
-                    <span class="tag amber">LaTeX</span>
-                    <span class="tag violet">Overleaf</span>
-                    <span class="tag amber">Word</span>
-                </div>
+                <p>Papers, tesis e informes técnicos con estructura metodológica rigurosa y formato profesional.</p>
+                <div class="tgs"><span class="tg tg-a">LaTeX</span><span class="tg tg-v">Overleaf</span><span class="tg tg-a">Word</span></div>
             </div>
-            <div class="domain-card iot">
-                <span class="domain-icon">⚡</span>
+            <div class="sk-card">
+                <span class="ski">⚡</span>
                 <h3>IoT & Automatización</h3>
-                <p>Prototipado electrónico, sensores, telemetría GSM y control automatizado de sistemas.</p>
-                <div class="tags">
-                    <span class="tag teal">Arduino</span>
-                    <span class="tag teal">SIM800L</span>
-                    <span class="tag amber">Sensores</span>
-                </div>
+                <p>Prototipado electrónico, sensores, telemetría GSM y control automatizado de procesos agrícolas.</p>
+                <div class="tgs"><span class="tg tg-t">Arduino</span><span class="tg tg-t">SIM800L</span><span class="tg tg-a">Sensores</span></div>
             </div>
-            <div class="domain-card research">
-                <span class="domain-icon">🧮</span>
-                <h3>Álgebra & cálculo matricial</h3>
-                <p>Estimación MCO por matrices, inversas X'X, β̂, R² y verificación numérica cruzada.</p>
-                <div class="tags">
-                    <span class="tag violet">Excel avanzado</span>
-                    <span class="tag amber">Minitab</span>
-                </div>
+            <div class="sk-card">
+                <span class="ski">🧮</span>
+                <h3>Álgebra matricial</h3>
+                <p>MCO por matrices, inversas X'X, estimación β̂, R² y verificación numérica cruzada.</p>
+                <div class="tgs"><span class="tg tg-v">Excel avanzado</span><span class="tg tg-a">Minitab</span></div>
             </div>
         </div>
 
-        <!-- IDIOMAS -->
-        <div class="sec-label" style="margin-top:3.5rem;">Idiomas</div>
-        <h2 class="sec-title">Competencias lingüísticas</h2>
-        <div class="lang-grid reveal">
-            <div class="lang-card">
-                <div class="lang-name">Español</div>
-                <div class="lang-level">Nativo</div>
-                <div class="lang-bar"><div class="lang-bar-fill native"></div></div>
-            </div>
-            <div class="lang-card">
-                <div class="lang-name">Quechua</div>
-                <div class="lang-level">Conversacional</div>
-                <div class="lang-bar"><div class="lang-bar-fill intermediate"></div></div>
-            </div>
-            <div class="lang-card">
-                <div class="lang-name">English</div>
-                <div class="lang-level">Básico – Intermedio</div>
-                <div class="lang-bar"><div class="lang-bar-fill basic"></div></div>
-            </div>
+        <div class="sec-tag rv" style="margin-top:3.5rem">Idiomas</div>
+        <h2 class="sec-h rv rv-d1">Competencias lingüísticas</h2>
+        <div class="lang-row rv rv-d2">
+            <div class="lang"><h4>Español</h4><div class="lv">Nativo</div><div class="lang-bar"><div class="lang-fill n" data-w="100"></div></div></div>
+            <div class="lang"><h4>Quechua</h4><div class="lv">Conversacional</div><div class="lang-bar"><div class="lang-fill i" data-w="55"></div></div></div>
+            <div class="lang"><h4>English</h4><div class="lv">Básico – Intermedio</div><div class="lang-bar"><div class="lang-fill b" data-w="40"></div></div></div>
         </div>
     </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- ═══════════ PROYECTOS ═══════════ -->
-<section id="proyectos">
+<!-- ═══════════ EDUCATION ═══════════ -->
+<section id="education" class="edu-section">
     <div class="wrap">
-        <div class="sec-label">Portafolio</div>
-        <h2 class="sec-title">Proyectos destacados</h2>
-        <div class="projects-list reveal">
-
-            <div class="proj-card">
-                <div class="proj-num">01</div>
-                <div class="proj-body">
-                    <h3>Modelamiento SARIMA de concentraciones de PM₁₀ en Arequipa</h3>
-                    <p>Serie de tiempo (Enero 2015 – Abril 2026) de calidad del aire modelada con Box-Jenkins. SARIMA(2,0,0)(0,0,0)₁₂ estimado en EViews 13 con diagnóstico completo: ADF, correlograma ACF/PACF, Ljung-Box y validación cruzada temporal.</p>
-                    <div class="proj-tools">
-                        <span class="tag teal">EViews 13</span>
-                        <span class="tag amber">Minitab</span>
-                        <span class="tag violet">LaTeX</span>
-                    </div>
-                </div>
-                <div class="proj-aside">2026<br>Tesis</div>
+        <div class="sec-tag rv">Educación</div>
+        <h2 class="sec-h rv rv-d1">Formación académica</h2>
+        <div class="tl rv rv-d2">
+            <div class="tl-item">
+                <div class="tl-when">2023 — Actualidad · Semestre VI</div>
+                <div class="tl-what">Ingeniería Estadística e Informática</div>
+                <div class="tl-where">Universidad Nacional del Altiplano — Puno, Perú</div>
             </div>
-
-            <div class="proj-card">
-                <div class="proj-num">02</div>
-                <div class="proj-body">
-                    <h3>Regresión lineal simple: precio y demanda de naranjas</h3>
-                    <p>Estimación MCO completa con R²=88.91%, análisis de supuestos (Shapiro-Wilk, Durbin-Watson), ANOVA (F=80.14, p&lt;0.001), intervalos de confianza y banda hiperbólica al 95%. Verificación celda por celda en Excel.</p>
-                    <div class="proj-tools">
-                        <span class="tag amber">Excel</span>
-                        <span class="tag violet">LaTeX</span>
-                    </div>
-                </div>
-                <div class="proj-aside">2026<br>Informe</div>
+            <div class="tl-item">
+                <div class="tl-when">Formación complementaria</div>
+                <div class="tl-what">Econometría · Series de Tiempo · Machine Learning</div>
+                <div class="tl-where">SARIMA, ARCH, regresión matricial, aprendizaje no supervisado (K-Means, DBSCAN, PCA)</div>
             </div>
-
-            <div class="proj-card">
-                <div class="proj-num">03</div>
-                <div class="proj-body">
-                    <h3>Clustering no supervisado: Iris y datos socioeconómicos</h3>
-                    <p>Implementación de K-Means con reducción PCA, métricas Silhouette y Davies-Bouldin, comparativa crítica DBSCAN vs. Jerárquico. Análisis epistemológico de limitaciones en datos mixtos.</p>
-                    <div class="proj-tools">
-                        <span class="tag violet">Python</span>
-                        <span class="tag violet">Colab</span>
-                        <span class="tag teal">scikit-learn</span>
-                    </div>
-                </div>
-                <div class="proj-aside">2026<br>Práctica</div>
+            <div class="tl-item">
+                <div class="tl-when">Investigación aplicada</div>
+                <div class="tl-what">Calidad del aire · Automatización agrícola · IoT</div>
+                <div class="tl-where">Series de tiempo PM₁₀ en Arequipa · Sistema inteligente de riego con Arduino y GSM</div>
             </div>
-
-            <div class="proj-card">
-                <div class="proj-num">04</div>
-                <div class="proj-body">
-                    <h3>Sistema inteligente de riego — Yuramayo, Arequipa</h3>
-                    <p>Automatización de riego para molle y crianza de cuyes (100 animales). Arduino, sensores de humedad, bomba 12V, tensiometría a 30/60 cm, alertas GSM vía SIM800L. Evaluación técnico-económica con recuperación &lt;10 meses.</p>
-                    <div class="proj-tools">
-                        <span class="tag teal">Arduino</span>
-                        <span class="tag teal">SIM800L</span>
-                        <span class="tag amber">Sensores</span>
-                    </div>
-                </div>
-                <div class="proj-aside">2026<br>Tesis</div>
-            </div>
-
         </div>
     </div>
 </section>
 
-<!-- ═══════════ COMPETENCIAS BLANDAS ═══════════ -->
+<div class="sep"></div>
+
+<!-- ═══════════ PROJECTS ═══════════ -->
+<section id="projects">
+    <div class="wrap">
+        <div class="sec-tag rv">Portafolio</div>
+        <h2 class="sec-h rv rv-d1">Proyectos destacados</h2>
+        <div class="proj-list rv rv-d2">
+            <div class="proj">
+                <div class="pn">01</div>
+                <div>
+                    <h3>Modelamiento SARIMA de PM₁₀ en Arequipa</h3>
+                    <p>Serie de tiempo (Ene 2015 – Abr 2026) de calidad del aire. SARIMA(2,0,0)(0,0,0)₁₂ en EViews 13 con diagnóstico ADF, correlograma ACF/PACF, Ljung-Box y validación temporal.</p>
+                    <div class="pt"><span class="tg tg-t">EViews 13</span><span class="tg tg-a">Minitab</span><span class="tg tg-v">LaTeX</span></div>
+                </div>
+                <div class="proj-side">2026<br>Tesis</div>
+            </div>
+            <div class="proj">
+                <div class="pn">02</div>
+                <div>
+                    <h3>Regresión lineal: precio y demanda de naranjas</h3>
+                    <p>MCO con R²=88.91%, Shapiro-Wilk, Durbin-Watson, ANOVA (F=80.14, p&lt;0.001), banda de confianza al 95%. Verificación celda por celda en Excel.</p>
+                    <div class="pt"><span class="tg tg-a">Excel</span><span class="tg tg-v">LaTeX</span></div>
+                </div>
+                <div class="proj-side">2026<br>Informe</div>
+            </div>
+            <div class="proj">
+                <div class="pn">03</div>
+                <div>
+                    <h3>Clustering no supervisado: Iris & datos socioeconómicos</h3>
+                    <p>K-Means + PCA, Silhouette, Davies-Bouldin. Comparativa DBSCAN vs. Jerárquico. Análisis epistemológico de datos mixtos.</p>
+                    <div class="pt"><span class="tg tg-v">Python</span><span class="tg tg-v">Colab</span><span class="tg tg-t">scikit-learn</span></div>
+                </div>
+                <div class="proj-side">2026<br>Práctica</div>
+            </div>
+            <div class="proj">
+                <div class="pn">04</div>
+                <div>
+                    <h3>Sistema inteligente de riego — Yuramayo, Arequipa</h3>
+                    <p>Automatización para molle y crianza de cuyes (100 animales). Arduino, sensores de humedad, bomba 12V, tensiometría 30/60 cm, alertas GSM. ROI &lt;10 meses.</p>
+                    <div class="pt"><span class="tg tg-t">Arduino</span><span class="tg tg-t">SIM800L</span><span class="tg tg-a">Sensores</span></div>
+                </div>
+                <div class="proj-side">2026<br>Tesis</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ SOFT SKILLS ═══════════ -->
 <section class="soft-section">
     <div class="wrap">
-        <div class="sec-label">Fortalezas</div>
-        <h2 class="sec-title">Competencias personales</h2>
-        <div class="soft-strip reveal">
-            <div class="soft-pill">
-                <span class="s-icon">🧠</span>
-                <h4>Lógica</h4>
-                <p>Pensamiento estructurado y analítico</p>
-            </div>
-            <div class="soft-pill">
-                <span class="s-icon">🤝</span>
-                <h4>Equipo</h4>
-                <p>Colaboración eficaz y silenciosa</p>
-            </div>
-            <div class="soft-pill">
-                <span class="s-icon">🎯</span>
-                <h4>Resultados</h4>
-                <p>Orientada a entregables concretos</p>
-            </div>
-            <div class="soft-pill">
-                <span class="s-icon">🔍</span>
-                <h4>Rigor</h4>
-                <p>Verificación exhaustiva de datos</p>
-            </div>
-            <div class="soft-pill">
-                <span class="s-icon">📚</span>
-                <h4>Autodidacta</h4>
-                <p>Aprendizaje continuo por iniciativa propia</p>
-            </div>
+        <div class="sec-tag rv">Fortalezas</div>
+        <h2 class="sec-h rv rv-d1">Competencias personales</h2>
+        <div class="soft-row rv rv-d2">
+            <div class="soft"><span class="si">🧠</span><h4>Lógica</h4><p>Pensamiento estructurado y analítico</p></div>
+            <div class="soft"><span class="si">🤝</span><h4>Equipo</h4><p>Colaboración eficaz y silenciosa</p></div>
+            <div class="soft"><span class="si">🎯</span><h4>Resultados</h4><p>Orientada a entregables medibles</p></div>
+            <div class="soft"><span class="si">🔍</span><h4>Rigor</h4><p>Verificación exhaustiva de datos</p></div>
+            <div class="soft"><span class="si">📚</span><h4>Autodidacta</h4><p>Aprendizaje por iniciativa propia</p></div>
         </div>
     </div>
 </section>
 
-<div class="divider"></div>
+<div class="sep"></div>
 
-<!-- ═══════════ CONTACTO ═══════════ -->
-<section id="contacto">
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
     <div class="wrap">
-        <div class="contact-wrap reveal">
+        <div class="cta-box rv">
             <h3>Hablemos de datos</h3>
             <p>Abierta a oportunidades en ciencia de datos, análisis estadístico, investigación cuantitativa y consultoría analítica.</p>
-            <div class="contact-btns">
-                <a href="mailto:bvilcac@est.unap.edu.pe" class="cbtn gold">✉ Correo</a>
-                <a href="#" class="cbtn outline">⬇ Descargar CV</a>
-                <a href="#" class="cbtn outline">in LinkedIn</a>
+            <div class="cta-btns">
+                <a href="mailto:bvilcac@est.unap.edu.pe" class="btn btn-gold">✉ Correo</a>
+                <a href="#" class="btn btn-ghost">⬇ Descargar CV</a>
+                <a href="#" class="btn btn-ghost">in LinkedIn</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ═══════════ FOOTER ═══════════ -->
 <footer>
-    <div class="f-name">Briggitte Jhosselyn Vilca Chambilla</div>
+    <div class="fn">Briggitte Jhosselyn Vilca Chambilla</div>
     <p>© 2026 — Puno, Perú</p>
-    <div class="f-motto">«Prefiero que los resultados hablen.»</div>
+    <div class="fm">«Prefiero que los resultados hablen.»</div>
 </footer>
 
 <!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
-// ── Constellation background ──
+// ── Constellation network ──
 (function(){
-    const c = document.getElementById('constellation');
-    const ctx = c.getContext('2d');
-    let W, H, pts = [];
-
-    function resize(){ W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
+    const c=document.getElementById('net'),x=c.getContext('2d');
+    let W,H,pts=[];
+    function sz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
     function init(){
-        resize(); pts = [];
-        const n = Math.min(Math.floor((W*H)/6000), 200);
-        for(let i=0;i<n;i++){
-            pts.push({
-                x: Math.random()*W, y: Math.random()*H,
-                vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
-                r: Math.random()*1.2+0.4,
-                a: Math.random()*0.35+0.08
-            });
-        }
+        sz();pts=[];
+        const n=Math.min(Math.floor(W*H/7000),180);
+        for(let i=0;i<n;i++) pts.push({
+            x:Math.random()*W,y:Math.random()*H,
+            vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,
+            r:Math.random()*1.3+0.3,a:Math.random()*0.3+0.06
+        });
     }
-    function loop(){
-        ctx.clearRect(0,0,W,H);
+    function draw(){
+        x.clearRect(0,0,W,H);
         for(const p of pts){
-            p.x += p.vx; p.y += p.vy;
-            if(p.x<0)p.x=W; if(p.x>W)p.x=0;
-            if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fillStyle=`rgba(200,165,90,${p.a})`;
-            ctx.fill();
+            p.x+=p.vx;p.y+=p.vy;
+            if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+            x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);
+            x.fillStyle=`rgba(200,165,90,${p.a})`;x.fill();
         }
-        for(let i=0;i<pts.length;i++){
-            for(let j=i+1;j<pts.length;j++){
-                const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
-                const d=Math.sqrt(dx*dx+dy*dy);
-                if(d<110){
-                    ctx.beginPath();
-                    ctx.moveTo(pts[i].x,pts[i].y);
-                    ctx.lineTo(pts[j].x,pts[j].y);
-                    ctx.strokeStyle=`rgba(139,127,184,${0.06*(1-d/110)})`;
-                    ctx.lineWidth=0.5;
-                    ctx.stroke();
-                }
-            }
+        for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+            const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+            if(d<120){x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);
+            x.strokeStyle=`rgba(139,127,184,${0.055*(1-d/120)})`;x.lineWidth=0.5;x.stroke()}
         }
-        requestAnimationFrame(loop);
+        requestAnimationFrame(draw);
     }
-    window.addEventListener('resize', resize);
-    init(); loop();
+    window.addEventListener('resize',sz);init();draw();
 })();
 
+// ── Typewriter ──
+(function(){
+    const el=document.getElementById('typed');
+    const phrases=[
+        'Prefiero que los datos hablen por mí.',
+        'Estadística · Informática · Investigación.',
+        'Silencio productivo, resultados concretos.',
+        'Donde otros ven números, yo veo historias.'
+    ];
+    let pi=0,ci=0,del=false,pause=0;
+    function tick(){
+        if(pause>0){pause--;requestAnimationFrame(tick);return}
+        const phrase=phrases[pi];
+        if(!del){
+            el.textContent=phrase.slice(0,ci+1);ci++;
+            if(ci>=phrase.length){del=true;pause=120}
+        }else{
+            el.textContent=phrase.slice(0,ci);ci--;
+            if(ci<=0){del=false;pi=(pi+1)%phrases.length;pause=30}
+        }
+        setTimeout(()=>requestAnimationFrame(tick),del?25:45);
+    }
+    tick();
+})();
+
+// ── Cursor glow ──
+document.addEventListener('mousemove',e=>{
+    const g=document.getElementById('glow');
+    g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';
+});
+
+// ── Nav scroll ──
+window.addEventListener('scroll',()=>{
+    document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
 // ── Scroll reveal ──
-const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-        if(e.isIntersecting) e.target.classList.add('visible');
+const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ── Lang bar animation ──
+const lobs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+        if(e.isIntersecting){
+            e.target.style.width=e.target.dataset.w+'%';
+            lobs.unobserve(e.target);
+        }
     });
-},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+},{threshold:0.5});
+document.querySelectorAll('.lang-fill').forEach(el=>lobs.observe(el));
 </script>
 
 </body>
